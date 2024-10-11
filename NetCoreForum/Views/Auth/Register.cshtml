@@ -1,0 +1,19 @@
+﻿@model CreateUserViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="register-area">
+    @if (ViewData.ModelState.ErrorCount > 0)
+    {
+        <div asp-validation-summary="All" class="alert alert-error"></div>
+    }
+    <form asp-action="Register">
+        <input class="input" asp-for="Email">
+        <input class="input" asp-for="UserName">
+        <input class="input" asp-for="Password">
+        <input class="input" asp-for="ConfirmPassword">
+        <button class="btn btn-regular">Giriş yap</button>
+    </form>
+</div>

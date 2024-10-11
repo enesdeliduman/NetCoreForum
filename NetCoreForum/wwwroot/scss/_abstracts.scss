@@ -1,0 +1,105 @@
+/** FONTS **/
+
+@import url("https://fonts.googleapis.com/css2?family=Changa:wght@500&family=Open+Sans:wght@300&display=swap");
+
+/** VARIABLES **/
+
+$primary-font: "Open Sans", sans-serif;
+$primary-color: #6200ee; // Birincil Renk (Mor tonlarında güçlü vurgu rengi)
+
+$background-color: #121212; // Ana Arka Plan
+$secondary-background-color: #1e1e1e; // İkincil Arka Plan
+$surface-color: #232323; // Yüzey
+
+$primary-text-color: #ffffff; // Birincil Metin
+$secondary-text-color: #b3b3b3; // İkincil Metin
+$placeholder-text-color: #757575; // Yer Tutucu
+
+$primary-accent-color: #bb86fc; // Birincil Vurgu
+$secondary-accent-color: #03dac5; // İkincil Vurgu
+$action-link-color: #1e88e5; // Aksiyon ve Link
+
+$success-color: #4caf50; // Başarı
+$error-color: #cf6679; // Hata
+$warning-color: #ffa000; // Uyarı
+$info-color: #2196f3; // Bilgi
+
+$border-color: #282828; // Sınır Rengi
+$shadow-color: #000000; // Gölgeler
+
+$highlight-color: rgba(255, 255, 255, 0.2); // Açıklaştırma (%20 opaklık)
+$secondary-highlight-color: rgba(
+  255,
+  255,
+  255,
+  0.1
+); // İkincil Açıklaştırma (%10 opaklık)
+
+$general-transition: all 0.3s;
+$general-border-radius: 5px;
+
+/** UTILITIES **/
+
+.bg {
+  &-dark {
+    background-color: $background-color;
+  }
+}
+
+.ml {
+  &-2 {
+    margin-left: 2rem;
+  }
+}
+
+.m {
+  &-1 {
+    margin: 1rem;
+  }
+}
+
+.text-light {
+  color: $primary-text-color;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-primary {
+  color: $primary-color;
+}
+
+/** MIXINS **/
+
+@mixin flex-display($display, $align-items, $justify-content) {
+  display: $display;
+  align-items: $align-items;
+  justify-content: $justify-content;
+}
+
+@mixin media($screensize) {
+  @if ($screensize == xlarge) {
+    @media (max-width: 1280px) {
+      @content;
+    }
+  }
+
+  @if ($screensize == large) {
+    @media (max-width: 992px) {
+      @content;
+    }
+  }
+
+  @if ($screensize == medium) {
+    @media (max-width: 768px) {
+      @content;
+    }
+  }
+
+  @if ($screensize == small) {
+    @media (max-width: 576px) {
+      @content;
+    }
+  }
+}

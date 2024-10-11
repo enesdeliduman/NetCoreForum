@@ -15,7 +15,7 @@ namespace NetCoreForum.Data
         public DbSet<PendingUser> PendingUsers { get; set; } 
         public DbSet<Reply> Replies { get; set; } 
         public DbSet<Report> Reports { get; set; } 
-        public DbSet<SiteSetting> SiteSettings { get; set; }
+        public DbSet<SiteSettings> SiteSettings { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<TopicType> TopicTypes { get; set; } 
         public DbSet<Warning> Warnings { get; set; } 

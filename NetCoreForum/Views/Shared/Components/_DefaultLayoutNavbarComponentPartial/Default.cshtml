@@ -1,0 +1,13 @@
+﻿@model ResultSiteSettingsDto
+
+<nav>
+    <div class="top-nav">
+        <a asp-controller="Home" asp-action="Index" class="logo">
+            <img src="@Model.LogoPath">
+        </a>
+        <div class="auth">
+            <a asp-controller="Auth" asp-action="Login" class="btn">Giriş yap</a>
+            <a asp-controller="Auth" asp-action="Register" class="btn">Kayıt ol</a>
+        </div>
+    </div>
+</nav>

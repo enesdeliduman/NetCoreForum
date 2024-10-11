@@ -1,8 +1,8 @@
 ﻿namespace NetCoreForum.Entites
 {
-    public class SiteSetting
+    public class SiteSettings
     {
-        public int SiteSettingID { get; set; }
+        public int SiteSettingsID { get; set; }
         public string SiteName { get; set; }
         public string LogoPath { get; set; }
         public string FaviconPath { get; set; }

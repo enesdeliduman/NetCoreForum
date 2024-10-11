@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using NetCoreForum.Data;
 using NetCoreForum.Entites;
+using NetCoreForum.Mapping;
+using NetCoreForum.Repositories.Abstract;
+using NetCoreForum.Repositories.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration["ConnectionStrings:SqlServer"]));
 
@@ -27,7 +28,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.AllowedForNewUsers = true;
     options.SignIn.RequireConfirmedEmail = true;
 });
-
+builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
