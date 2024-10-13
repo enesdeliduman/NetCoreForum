@@ -65,7 +65,7 @@
   border-radius: 5px;
 }
 .input-error {
-  border: 1px solid #cf6679;
+  border: 1px solid #cc1b3b;
 }
 .input:focus-visible {
   outline: none;
@@ -79,6 +79,8 @@
 }
 
 .alert {
+  width: 100%;
+  font-size: 1.5rem;
   color: #ffffff;
   padding: 1rem 1.5rem;
   border-radius: 5px;
@@ -87,7 +89,7 @@
   background-color: #ffa000;
 }
 .alert-error {
-  background-color: #cf6679;
+  background-color: #cc1b3b;
 }
 .alert-success {
   background-color: #4caf50;
@@ -256,7 +258,20 @@ nav .top-nav .auth {
   color: #b3b3b3;
 }
 
-.register-area form {
+.register-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.register-area .main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+  width: 50%;
+}
+.register-area .main form {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -264,7 +279,38 @@ nav .top-nav .auth {
   gap: 20px;
   width: 100%;
 }
-.register-area form button {
+.register-area .main form input {
+  width: 100%;
+}
+.register-area .main form button {
+  cursor: pointer;
+}
+
+.login-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-area .main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+  width: 50%;
+}
+.login-area .main form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.login-area .main form input {
+  width: 100%;
+}
+.login-area .main form button {
   cursor: pointer;
 }
 

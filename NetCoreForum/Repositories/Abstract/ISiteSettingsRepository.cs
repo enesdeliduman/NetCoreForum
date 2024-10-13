@@ -5,6 +5,6 @@ namespace NetCoreForum.Repositories.Abstract
 {
     public interface ISiteSettingsRepository
     {
-        Task<ResultSiteSettingsDto> GetSiteSettingsAsync();
+        Task<ResultSiteSettingsDTO> GetSiteSettingsAsync();
     }
 }

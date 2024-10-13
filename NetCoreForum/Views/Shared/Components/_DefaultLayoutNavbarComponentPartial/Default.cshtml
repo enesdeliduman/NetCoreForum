@@ -1,9 +1,9 @@
-﻿@model ResultSiteSettingsDto
+﻿@model ResultSiteSettingsDTO
 
 <nav>
     <div class="top-nav">
         <a asp-controller="Home" asp-action="Index" class="logo">
-            <img src="@Model.LogoPath">
+            <img src="~/img/@Model.LogoPath">
         </a>
         <div class="auth">
             <a asp-controller="Auth" asp-action="Login" class="btn">Giriş yap</a>

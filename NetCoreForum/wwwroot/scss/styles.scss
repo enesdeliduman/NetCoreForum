@@ -162,13 +162,45 @@ nav {
 }
 
 .register-area {
-  form {
+  @include flex-display(flex, center, center);
+  .main {
     @include flex-display(flex, center, center);
     flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    button {
-      cursor: pointer;
+    gap: 40px;
+    width: 50%;
+    form {
+      @include flex-display(flex, center, center);
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      input {
+        width: 100%;
+      }
+      button {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.login-area {
+  @include flex-display(flex, center, center);
+  .main {
+    @include flex-display(flex, center, center);
+    flex-direction: column;
+    gap: 40px;
+    width: 50%;
+    form {
+      @include flex-display(flex, center, center);
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      input {
+        width: 100%;
+      }
+      button {
+        cursor: pointer;
+      }
     }
   }
 }

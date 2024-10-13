@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
+using NetCoreForum.DTOs.EmailTemplateDTOs;
+using NetCoreForum.DTOs.ErrorMessagesDTOs;
+using NetCoreForum.DTOs.PendingUserDTOs;
 using NetCoreForum.DTOs.SiteSettingsDTOs;
 using NetCoreForum.Entites;
+using NetCoreForum.Entities;
 
 namespace NetCoreForum.Mapping
 {
@@ -8,7 +12,17 @@ namespace NetCoreForum.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<SiteSettings, ResultSiteSettingsDto>();
+            CreateMap<SiteSettings, ResultSiteSettingsDTO>();
+
+            CreateMap<EmailTemplate, ResultEmailTemplateDTO>();
+            CreateMap<EmailTemplate, GetEmailTemplateByTemplateNameDTO>();
+
+            CreateMap<PendingUser, CreatePendingUserDTO>();
+            CreateMap<CreatePendingUserDTO, PendingUser>();
+
+            CreateMap<ErrorMessage, ResultErrorMessageDTO>();
+            CreateMap<ErrorMessage, GetErrorMessageByErrorMessageNameDTO>();
+
         }
     }
 }

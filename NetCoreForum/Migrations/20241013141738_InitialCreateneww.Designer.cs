@@ -9,11 +9,11 @@ using NetCoreForum.Data;
 
 #nullable disable
 
-namespace NetCoreForum.Data.Migrations
+namespace NetCoreForum.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241011105010_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241013141738_InitialCreateneww")]
+    partial class InitialCreateneww
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -211,11 +211,9 @@ namespace NetCoreForum.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("UserPhoto")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserSignature")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isActive")
@@ -243,16 +241,92 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
 
                     b.Property<string>("CategoryDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryTitle")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryID");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entites.EmailConfiguration", b =>
+                {
+                    b.Property<int>("EmailConfigurationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmailConfigurationID"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Port")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderPassword")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SmtpServer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("UseSSL")
+                        .HasColumnType("bit");
+
+                    b.HasKey("EmailConfigurationID");
+
+                    b.ToTable("EmailConfigurations");
+
+                    b.HasData(
+                        new
+                        {
+                            EmailConfigurationID = 1,
+                            CreatedAt = new DateTime(2024, 10, 13, 17, 17, 36, 849, DateTimeKind.Local).AddTicks(6496),
+                            Port = 587,
+                            SenderEmail = "iletisim@enesdeliduman.com",
+                            SenderName = "İletişimm",
+                            SenderPassword = "124124262114Ee",
+                            SmtpServer = "mail.enesdeliduman.com",
+                            UpdatedAt = new DateTime(2024, 10, 13, 17, 17, 36, 849, DateTimeKind.Local).AddTicks(6497),
+                            UseSSL = false
+                        });
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entites.Log", b =>
+                {
+                    b.Property<int>("LogID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LogID"));
+
+                    b.Property<string>("ActionDetails")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActionType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("LogCreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("LogID");
+
+                    b.HasIndex("AppUserID");
+
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("NetCoreForum.Entites.Message", b =>
@@ -264,18 +338,15 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageID"));
 
                     b.Property<string>("MessageContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("MessageIsRead")
                         .HasColumnType("bit");
 
                     b.Property<string>("MessageReceiverID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MessageSenderID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("MessageSentAt")
@@ -295,11 +366,9 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NotificationContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("NotificationCreatedAt")
@@ -309,7 +378,6 @@ namespace NetCoreForum.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("NotificationType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("NotificationID");
@@ -317,6 +385,27 @@ namespace NetCoreForum.Data.Migrations
                     b.HasIndex("AppUserID");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entites.PendingUser", b =>
+                {
+                    b.Property<int>("PendingUserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PendingUserID"));
+
+                    b.Property<string>("AppUserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PendingUserID");
+
+                    b.HasIndex("AppUserID");
+
+                    b.ToTable("PendingUsers");
                 });
 
             modelBuilder.Entity("NetCoreForum.Entites.Reply", b =>
@@ -328,11 +417,9 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReplyID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ReplyContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReplyLikeCount")
@@ -362,11 +449,9 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ReportAdditionalDetails")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReportCreatedAt")
@@ -376,14 +461,12 @@ namespace NetCoreForum.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ReportReason")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReportedEntityId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReportedEntityType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ReportID");
@@ -393,47 +476,63 @@ namespace NetCoreForum.Data.Migrations
                     b.ToTable("Reports");
                 });
 
-            modelBuilder.Entity("NetCoreForum.Entites.SiteSetting", b =>
+            modelBuilder.Entity("NetCoreForum.Entites.SiteSettings", b =>
                 {
-                    b.Property<int>("SiteSettingID")
+                    b.Property<int>("SiteSettingsID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SiteSettingID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SiteSettingsID"));
 
                     b.Property<string>("ContactEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContactPhone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FaviconPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FooterText")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogoPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MaxWarningCountForAppUser")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("RequireAdminApproval")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SiteName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("SiteSettingID");
+                    b.HasKey("SiteSettingsID");
 
                     b.ToTable("SiteSettings");
+
+                    b.HasData(
+                        new
+                        {
+                            SiteSettingsID = 1,
+                            ContactEmail = "mail@mail.com",
+                            ContactPhone = "0555 555 55 55",
+                            CreatedAt = new DateTime(2024, 10, 13, 17, 17, 36, 849, DateTimeKind.Local).AddTicks(6456),
+                            FaviconPath = "forum-favicon.png",
+                            FooterText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+                            LogoPath = "forum-logo.png",
+                            MaxWarningCountForAppUser = 5,
+                            RequireAdminApproval = false,
+                            SiteName = "NetCoreForum",
+                            UpdatedAt = new DateTime(2024, 10, 13, 17, 17, 36, 849, DateTimeKind.Local).AddTicks(6470)
+                        });
                 });
 
             modelBuilder.Entity("NetCoreForum.Entites.Topic", b =>
@@ -445,21 +544,18 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<string>("TopicContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TopicLikeCount")
                         .HasColumnType("int");
 
                     b.Property<string>("TopicTitle")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TopicTypeID")
@@ -488,12 +584,266 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicTypeID"));
 
                     b.Property<string>("TopicTypeName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TopicTypeID");
 
                     b.ToTable("TopicTypes");
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entites.Warning", b =>
+                {
+                    b.Property<int>("WarningID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WarningID"));
+
+                    b.Property<string>("AppUserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("WarningCreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("WarningDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WarningTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("WarningID");
+
+                    b.HasIndex("AppUserID");
+
+                    b.ToTable("Warnings");
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entities.EmailTemplate", b =>
+                {
+                    b.Property<int>("EmailTemplateID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmailTemplateID"));
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TemplateName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ViewedTemplateName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmailTemplateID");
+
+                    b.ToTable("EmailTemplates");
+
+                    b.HasData(
+                        new
+                        {
+                            EmailTemplateID = 1,
+                            Body = "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın: {reset_link}",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6254),
+                            Subject = "Şifre Sıfırlama Talebi",
+                            TemplateName = "ForgotPassword",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6254),
+                            ViewedTemplateName = "Şifremi Unuttum"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 2,
+                            Body = "Kayıt olduğunuz için teşekkürler! Hesabınıza hoş geldiniz.",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6258),
+                            Subject = "Hoş geldiniz!",
+                            TemplateName = "Welcome",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6258),
+                            ViewedTemplateName = "Hoş Geldiniz"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 3,
+                            Body = "Şifreniz başarıyla değiştirildi. Herhangi bir sorunla karşılaşırsanız, lütfen bizimle iletişime geçin.",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6261),
+                            Subject = "Şifre Değişikliğiniz Başarılı",
+                            TemplateName = "ChangePassword",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6261),
+                            ViewedTemplateName = "Şifre Değişikliği"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 4,
+                            Body = "Hesabınız başarıyla onaylandı. Artık sitemizi kullanabilirsiniz.",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6263),
+                            Subject = "Hesabınız Onaylandı",
+                            TemplateName = "ConfirmAccount",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6264),
+                            ViewedTemplateName = "Hesap Onayı"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 5,
+                            Body = "Foruma üye olduğunuz için teşekkürler! Hesabınız yönetici onayını bekliyor. Onaylandıktan sonra giriş yapabilirsiniz.",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6266),
+                            Subject = "Hesap Onayınızı Bekliyor",
+                            TemplateName = "AccountPendingApproval",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6267),
+                            ViewedTemplateName = "Hesap Beklemede"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 6,
+                            Body = "Tebrikler! Hesabınız başarıyla onaylandı ve artık foruma giriş yapabilirsiniz. Hoş geldiniz!",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6269),
+                            Subject = "Hesabınız Onaylandı",
+                            TemplateName = "AccountApproved",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6269),
+                            ViewedTemplateName = "Hesap Onaylandı"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 7,
+                            Body = "Üzgünüz, hesabınız onaylanmadı. Daha fazla bilgi almak için lütfen yönetici ile iletişime geçin.",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6271),
+                            Subject = "Hesabınız Onaylanmadı",
+                            TemplateName = "AccountNotApproved",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6272),
+                            ViewedTemplateName = "Hesap Onaylanmadı"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 8,
+                            Body = "Hesabınız silindi. Eğer bu işlem siz tarafından yapılmadıysa lütfen bizimle iletişime geçin.",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6274),
+                            Subject = "Hesabınız Silindi",
+                            TemplateName = "AccountDeleted",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6274),
+                            ViewedTemplateName = "Hesap Silindi"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 9,
+                            Body = "Merhaba {username}, \n\nBu size gönderilen {warning_count}. uyarıdır. 5 uyarıya ulaştığınızda hesabınız otomatik olarak silinecektir. Lütfen site kurallarına uyun.",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6276),
+                            Subject = "Uyarı Aldınız - {warning_count}. Uyarı",
+                            TemplateName = "WarningEmail",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6277),
+                            ViewedTemplateName = "Uyarı Mesajı"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 10,
+                            Body = "Merhaba, \n\nMaksimum uyarı sayısına ulaştığınız için kalıcı olarak hesabınız askıya alınmıştır. Eğer bu işlem hakkında sorularınız varsa, lütfen bizimle iletişime geçin.",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6279),
+                            Subject = "Hesabınız Silindi",
+                            TemplateName = "AccountDeletedDueToWarnings",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6279),
+                            ViewedTemplateName = "Hesap Silindi"
+                        },
+                        new
+                        {
+                            EmailTemplateID = 11,
+                            Body = "Merhaba Kayıt işleminizi tamamlamak için lütfen aşağıdaki bağlantıya tıklayarak e-posta adresinizi onaylayın:",
+                            CreatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6281),
+                            Subject = "E-posta Onayı Gerekli",
+                            TemplateName = "EmailConfirmation",
+                            UpdatedAt = new DateTime(2024, 10, 13, 14, 17, 36, 849, DateTimeKind.Utc).AddTicks(6282),
+                            ViewedTemplateName = "E-posta Onayı"
+                        });
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entities.ErrorMessages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccountLockedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActionNotAllowedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DuplicateEntryMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailAlreadyUsedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailNotFoundMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailSendFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileSizeExceededMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileTypeNotAllowedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileUploadFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvalidEmailOrPasswordMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvalidFormatMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvalidLoginMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvalidRequestMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NotFoundMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldPasswordIncorrectMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OperationFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordChangeFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordTooWeakMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegistrationFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequiredFieldMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServerErrorMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnauthorizedAccessMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserNotConfirmedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValidationErrorMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ErrorMessages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -547,13 +897,29 @@ namespace NetCoreForum.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("NetCoreForum.Entites.Log", b =>
+                {
+                    b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserID");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("NetCoreForum.Entites.Notification", b =>
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entites.PendingUser", b =>
+                {
+                    b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserID");
 
                     b.Navigation("AppUser");
                 });
@@ -563,8 +929,7 @@ namespace NetCoreForum.Data.Migrations
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany("Replies")
                         .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("NetCoreForum.Entites.Topic", "Topic")
                         .WithMany("Replies")
@@ -581,9 +946,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.Navigation("AppUser");
                 });
@@ -592,9 +955,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany("Topics")
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.HasOne("NetCoreForum.Entites.Category", "Category")
                         .WithMany("Topics")
@@ -615,11 +976,22 @@ namespace NetCoreForum.Data.Migrations
                     b.Navigation("TopicType");
                 });
 
+            modelBuilder.Entity("NetCoreForum.Entites.Warning", b =>
+                {
+                    b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
+                        .WithMany("Warnings")
+                        .HasForeignKey("AppUserID");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("NetCoreForum.Entites.AppUser", b =>
                 {
                     b.Navigation("Replies");
 
                     b.Navigation("Topics");
+
+                    b.Navigation("Warnings");
                 });
 
             modelBuilder.Entity("NetCoreForum.Entites.Category", b =>

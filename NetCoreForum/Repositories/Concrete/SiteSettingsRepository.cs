@@ -18,10 +18,10 @@ namespace NetCoreForum.Repositories.Concrete
             _context = context;
             _mapper = mapper;
         }
-        public async Task<ResultSiteSettingsDto> GetSiteSettingsAsync()
+        public async Task<ResultSiteSettingsDTO> GetSiteSettingsAsync()
         {
             var data = await _context.SiteSettings.FirstOrDefaultAsync();
-            var value = _mapper.Map<ResultSiteSettingsDto>(data);
+            var value = _mapper.Map<ResultSiteSettingsDTO>(data);
 
             return value;
         }

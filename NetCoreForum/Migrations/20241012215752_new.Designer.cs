@@ -9,11 +9,11 @@ using NetCoreForum.Data;
 
 #nullable disable
 
-namespace NetCoreForum.Data.Migrations
+namespace NetCoreForum.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241011130605_fixed")]
-    partial class @fixed
+    [Migration("20241012215752_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -211,11 +211,9 @@ namespace NetCoreForum.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("UserPhoto")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserSignature")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isActive")
@@ -243,16 +241,51 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
 
                     b.Property<string>("CategoryDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryTitle")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryID");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entites.EmailConfiguration", b =>
+                {
+                    b.Property<int>("EmailConfigurationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmailConfigurationID"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Port")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderPassword")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SmtpServer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("UseSSL")
+                        .HasColumnType("bit");
+
+                    b.HasKey("EmailConfigurationID");
+
+                    b.ToTable("EmailConfigurations");
                 });
 
             modelBuilder.Entity("NetCoreForum.Entites.Log", b =>
@@ -264,15 +297,12 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LogID"));
 
                     b.Property<string>("ActionDetails")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ActionType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("LogCreatedAt")
@@ -294,18 +324,15 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageID"));
 
                     b.Property<string>("MessageContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("MessageIsRead")
                         .HasColumnType("bit");
 
                     b.Property<string>("MessageReceiverID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MessageSenderID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("MessageSentAt")
@@ -325,11 +352,9 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NotificationContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("NotificationCreatedAt")
@@ -339,7 +364,6 @@ namespace NetCoreForum.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("NotificationType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("NotificationID");
@@ -358,7 +382,6 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PendingUserID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsApproved")
@@ -383,11 +406,9 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReplyID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ReplyContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReplyLikeCount")
@@ -417,11 +438,9 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ReportAdditionalDetails")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReportCreatedAt")
@@ -431,14 +450,12 @@ namespace NetCoreForum.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ReportReason")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReportedEntityId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReportedEntityType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ReportID");
@@ -457,26 +474,21 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SiteSettingsID"));
 
                     b.Property<string>("ContactEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContactPhone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FaviconPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FooterText")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogoPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MaxWarningCountForAppUser")
@@ -486,7 +498,6 @@ namespace NetCoreForum.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("SiteName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -495,6 +506,22 @@ namespace NetCoreForum.Data.Migrations
                     b.HasKey("SiteSettingsID");
 
                     b.ToTable("SiteSettings");
+
+                    b.HasData(
+                        new
+                        {
+                            SiteSettingsID = 1,
+                            ContactEmail = "mail@mail.com",
+                            ContactPhone = "0555 555 55 55",
+                            CreatedAt = new DateTime(2024, 10, 13, 0, 57, 51, 766, DateTimeKind.Local).AddTicks(365),
+                            FaviconPath = "forum-favicon.png",
+                            FooterText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+                            LogoPath = "forum-logo.png",
+                            MaxWarningCountForAppUser = 5,
+                            RequireAdminApproval = false,
+                            SiteName = "NetCoreForum",
+                            UpdatedAt = new DateTime(2024, 10, 13, 0, 57, 51, 766, DateTimeKind.Local).AddTicks(377)
+                        });
                 });
 
             modelBuilder.Entity("NetCoreForum.Entites.Topic", b =>
@@ -506,21 +533,18 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<string>("TopicContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TopicLikeCount")
                         .HasColumnType("int");
 
                     b.Property<string>("TopicTitle")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TopicTypeID")
@@ -549,7 +573,6 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicTypeID"));
 
                     b.Property<string>("TopicTypeName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TopicTypeID");
@@ -566,18 +589,15 @@ namespace NetCoreForum.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WarningID"));
 
                     b.Property<string>("AppUserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("WarningCreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("WarningDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WarningTitle")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("WarningID");
@@ -585,6 +605,161 @@ namespace NetCoreForum.Data.Migrations
                     b.HasIndex("AppUserID");
 
                     b.ToTable("Warnings");
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entities.EmailTemplate", b =>
+                {
+                    b.Property<int>("EmailTemplateID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmailTemplateID"));
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TemplateName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("EmailTemplateID");
+
+                    b.ToTable("EmailTemplates");
+
+                    b.HasData(
+                        new
+                        {
+                            EmailTemplateID = 1,
+                            Body = "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın: {reset_link}",
+                            CreatedAt = new DateTime(2024, 10, 12, 21, 57, 51, 766, DateTimeKind.Utc).AddTicks(235),
+                            Subject = "Şifre Sıfırlama Talebi",
+                            TemplateName = "Şifremi Unuttum",
+                            UpdatedAt = new DateTime(2024, 10, 12, 21, 57, 51, 766, DateTimeKind.Utc).AddTicks(235)
+                        },
+                        new
+                        {
+                            EmailTemplateID = 2,
+                            Body = "Kayıt olduğunuz için teşekkürler! Hesabınıza hoş geldiniz.",
+                            CreatedAt = new DateTime(2024, 10, 12, 21, 57, 51, 766, DateTimeKind.Utc).AddTicks(237),
+                            Subject = "Hoş geldiniz!",
+                            TemplateName = "Hoş Geldiniz",
+                            UpdatedAt = new DateTime(2024, 10, 12, 21, 57, 51, 766, DateTimeKind.Utc).AddTicks(238)
+                        },
+                        new
+                        {
+                            EmailTemplateID = 3,
+                            Body = "Şifreniz başarıyla değiştirildi. Herhangi bir sorunla karşılaşırsanız, lütfen bizimle iletişime geçin.",
+                            CreatedAt = new DateTime(2024, 10, 12, 21, 57, 51, 766, DateTimeKind.Utc).AddTicks(240),
+                            Subject = "Şifre Değişikliğiniz Başarılı",
+                            TemplateName = "Şifre Değişikliği",
+                            UpdatedAt = new DateTime(2024, 10, 12, 21, 57, 51, 766, DateTimeKind.Utc).AddTicks(240)
+                        },
+                        new
+                        {
+                            EmailTemplateID = 4,
+                            Body = "Hesabınız başarıyla onaylandı. Artık sitemizi kullanabilirsiniz.",
+                            CreatedAt = new DateTime(2024, 10, 12, 21, 57, 51, 766, DateTimeKind.Utc).AddTicks(242),
+                            Subject = "Hesabınız Onaylandı",
+                            TemplateName = "Hesap Onayı",
+                            UpdatedAt = new DateTime(2024, 10, 12, 21, 57, 51, 766, DateTimeKind.Utc).AddTicks(242)
+                        });
+                });
+
+            modelBuilder.Entity("NetCoreForum.Entities.ErrorMessages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccountLockedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActionNotAllowedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DuplicateEntryMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailAlreadyUsedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailNotFoundMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailSendFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileSizeExceededMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileTypeNotAllowedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileUploadFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvalidEmailOrPasswordMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvalidFormatMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvalidLoginMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvalidRequestMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NotFoundMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldPasswordIncorrectMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OperationFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordChangeFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordTooWeakMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegistrationFailedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequiredFieldMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServerErrorMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnauthorizedAccessMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserNotConfirmedMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValidationErrorMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ErrorMessages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -642,9 +817,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.Navigation("AppUser");
                 });
@@ -653,9 +826,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.Navigation("AppUser");
                 });
@@ -664,9 +835,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.Navigation("AppUser");
                 });
@@ -676,8 +845,7 @@ namespace NetCoreForum.Data.Migrations
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany("Replies")
                         .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("NetCoreForum.Entites.Topic", "Topic")
                         .WithMany("Replies")
@@ -694,9 +862,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.Navigation("AppUser");
                 });
@@ -705,9 +871,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany("Topics")
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.HasOne("NetCoreForum.Entites.Category", "Category")
                         .WithMany("Topics")
@@ -732,9 +896,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     b.HasOne("NetCoreForum.Entites.AppUser", "AppUser")
                         .WithMany("Warnings")
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.Navigation("AppUser");
                 });

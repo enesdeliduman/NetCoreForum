@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NetCoreForum.Data.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace NetCoreForum.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -30,8 +32,8 @@ namespace NetCoreForum.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserPhoto = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserSignature = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserSignature = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -59,12 +61,85 @@ namespace NetCoreForum.Data.Migrations
                 {
                     CategoryID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailConfigurations",
+                columns: table => new
+                {
+                    EmailConfigurationID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SmtpServer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Port = table.Column<int>(type: "int", nullable: false),
+                    SenderEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SenderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SenderPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UseSSL = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailConfigurations", x => x.EmailConfigurationID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailTemplates",
+                columns: table => new
+                {
+                    EmailTemplateID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TemplateName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailTemplates", x => x.EmailTemplateID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ErrorMessages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NotFoundMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnauthorizedAccessMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ServerErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ValidationErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InvalidLoginMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AccountLockedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordTooWeakMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailAlreadyUsedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserNotConfirmedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InvalidEmailOrPasswordMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DuplicateEntryMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordChangeFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OldPasswordIncorrectMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailSendFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailNotFoundMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RequiredFieldMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InvalidFormatMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OperationFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InvalidRequestMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActionNotAllowedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileUploadFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileTypeNotAllowedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileSizeExceededMessage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ErrorMessages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,9 +148,9 @@ namespace NetCoreForum.Data.Migrations
                 {
                     MessageID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MessageSenderID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageReceiverID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MessageSenderID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MessageReceiverID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MessageContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MessageIsRead = table.Column<bool>(type: "bit", nullable: false),
                     MessageSentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -88,20 +163,22 @@ namespace NetCoreForum.Data.Migrations
                 name: "SiteSettings",
                 columns: table => new
                 {
-                    SiteSettingID = table.Column<int>(type: "int", nullable: false)
+                    SiteSettingsID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SiteName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LogoPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FaviconPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FooterText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SiteName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogoPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FaviconPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FooterText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaxWarningCountForAppUser = table.Column<int>(type: "int", nullable: false),
+                    RequireAdminApproval = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteSettings", x => x.SiteSettingID);
+                    table.PrimaryKey("PK_SiteSettings", x => x.SiteSettingsID);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,7 +187,7 @@ namespace NetCoreForum.Data.Migrations
                 {
                     TopicTypeID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TopicTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TopicTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -224,16 +301,37 @@ namespace NetCoreForum.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Logs",
+                columns: table => new
+                {
+                    LogID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ActionType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ActionDetails = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logs", x => x.LogID);
+                    table.ForeignKey(
+                        name: "FK_Logs_AspNetUsers_AppUserID",
+                        column: x => x.AppUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Notifications",
                 columns: table => new
                 {
                     NotificationID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NotificationContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NotificationType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NotificationContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NotificationType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NotificationIsRead = table.Column<bool>(type: "bit", nullable: false),
                     NotificationCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -242,8 +340,27 @@ namespace NetCoreForum.Data.Migrations
                         name: "FK_Notifications_AspNetUsers_AppUserID",
                         column: x => x.AppUserID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PendingUsers",
+                columns: table => new
+                {
+                    PendingUserID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PendingUsers", x => x.PendingUserID);
+                    table.ForeignKey(
+                        name: "FK_PendingUsers_AspNetUsers_AppUserID",
+                        column: x => x.AppUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -252,13 +369,13 @@ namespace NetCoreForum.Data.Migrations
                 {
                     ReportID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ReportReason = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReportedEntityType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReportReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReportedEntityType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReportedEntityId = table.Column<int>(type: "int", nullable: false),
-                    ReportAdditionalDetails = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReportAdditionalDetails = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReportIsReviewed = table.Column<bool>(type: "bit", nullable: false),
                     ReportCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -267,8 +384,28 @@ namespace NetCoreForum.Data.Migrations
                         name: "FK_Reports_AspNetUsers_AppUserID",
                         column: x => x.AppUserID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Warnings",
+                columns: table => new
+                {
+                    WarningID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WarningTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WarningDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WarningCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Warnings", x => x.WarningID);
+                    table.ForeignKey(
+                        name: "FK_Warnings_AspNetUsers_AppUserID",
+                        column: x => x.AppUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -277,11 +414,11 @@ namespace NetCoreForum.Data.Migrations
                 {
                     TopicID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TopicTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TopicContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TopicTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TopicContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TopicLikeCount = table.Column<int>(type: "int", nullable: false),
                     TopicViewCount = table.Column<int>(type: "int", nullable: false),
-                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CategoryID = table.Column<int>(type: "int", nullable: false),
                     TopicTypeID = table.Column<int>(type: "int", nullable: false)
                 },
@@ -292,8 +429,7 @@ namespace NetCoreForum.Data.Migrations
                         name: "FK_Topics_AspNetUsers_AppUserID",
                         column: x => x.AppUserID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Topics_Categories_CategoryID",
                         column: x => x.CategoryID,
@@ -314,10 +450,10 @@ namespace NetCoreForum.Data.Migrations
                 {
                     ReplyID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ReplyContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReplyContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReplyLikeCount = table.Column<int>(type: "int", nullable: false),
                     ReplyViewCount = table.Column<int>(type: "int", nullable: false),
-                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TopicID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -335,6 +471,17 @@ namespace NetCoreForum.Data.Migrations
                         principalTable: "Topics",
                         principalColumn: "TopicID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmailTemplates",
+                columns: new[] { "EmailTemplateID", "Body", "CreatedAt", "Subject", "TemplateName", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın: {reset_link}", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6606), "Şifre Sıfırlama Talebi", "Şifremi Unuttum", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6606) },
+                    { 2, "Kayıt olduğunuz için teşekkürler! Hesabınıza hoş geldiniz.", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6609), "Hoş geldiniz!", "Hoş Geldiniz", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6610) },
+                    { 3, "Şifreniz başarıyla değiştirildi. Herhangi bir sorunla karşılaşırsanız, lütfen bizimle iletişime geçin.", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6612), "Şifre Değişikliğiniz Başarılı", "Şifre Değişikliği", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6613) },
+                    { 4, "Hesabınız başarıyla onaylandı. Artık sitemizi kullanabilirsiniz.", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6615), "Hesabınız Onaylandı", "Hesap Onayı", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6615) }
                 });
 
             migrationBuilder.CreateIndex(
@@ -377,8 +524,18 @@ namespace NetCoreForum.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Logs_AppUserID",
+                table: "Logs",
+                column: "AppUserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notifications_AppUserID",
                 table: "Notifications",
+                column: "AppUserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PendingUsers_AppUserID",
+                table: "PendingUsers",
                 column: "AppUserID");
 
             migrationBuilder.CreateIndex(
@@ -410,6 +567,11 @@ namespace NetCoreForum.Data.Migrations
                 name: "IX_Topics_TopicTypeID",
                 table: "Topics",
                 column: "TopicTypeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warnings_AppUserID",
+                table: "Warnings",
+                column: "AppUserID");
         }
 
         /// <inheritdoc />
@@ -431,10 +593,25 @@ namespace NetCoreForum.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "EmailConfigurations");
+
+            migrationBuilder.DropTable(
+                name: "EmailTemplates");
+
+            migrationBuilder.DropTable(
+                name: "ErrorMessages");
+
+            migrationBuilder.DropTable(
+                name: "Logs");
+
+            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
+
+            migrationBuilder.DropTable(
+                name: "PendingUsers");
 
             migrationBuilder.DropTable(
                 name: "Replies");
@@ -444,6 +621,9 @@ namespace NetCoreForum.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "SiteSettings");
+
+            migrationBuilder.DropTable(
+                name: "Warnings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

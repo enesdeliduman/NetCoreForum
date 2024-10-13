@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using NetCoreForum.Data;
 using NetCoreForum.Entites;
 using NetCoreForum.Mapping;
 using NetCoreForum.Repositories.Abstract;
 using NetCoreForum.Repositories.Concrete;
+using NetCoreForum.Services.SMTPMailServer.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -28,7 +30,13 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.AllowedForNewUsers = true;
     options.SignIn.RequireConfirmedEmail = true;
 });
+
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
+builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+builder.Services.AddScoped<IPendingUserRepository, PendingUserRepository>();
+builder.Services.AddScoped<IErrorMessageRepository, ErrorMessageRepository>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

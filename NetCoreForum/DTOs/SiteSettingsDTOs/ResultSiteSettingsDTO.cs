@@ -1,6 +1,6 @@
 ﻿namespace NetCoreForum.DTOs.SiteSettingsDTOs
 {
-    public class ResultSiteSettingsDto
+    public class ResultSiteSettingsDTO
     {
         public int SiteSettingsID { get; set; }
         public string SiteName { get; set; }
