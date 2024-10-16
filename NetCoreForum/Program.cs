@@ -37,6 +37,7 @@ builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
 builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 builder.Services.AddScoped<IPendingUserRepository, PendingUserRepository>();
 builder.Services.AddScoped<IErrorMessageRepository, ErrorMessageRepository>();
+builder.Services.AddScoped<ITopicRepository, TopicRepository>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -57,5 +58,10 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Topic}/{action=Index}/{id?}");
+
 
 app.Run();

@@ -1,6 +1,8 @@
-﻿namespace NetCoreForum.Entites
+﻿using NetCoreForum.Entites;
+
+namespace NetCoreForum.DTOs.TopicDTOs
 {
-    public class Topic
+    public class GetTopicDTO
     {
         public int TopicID { get; set; }
         public string TopicTitle { get; set; }
@@ -9,12 +11,8 @@
         public int TopicViewCount { get; set; }
 
         public ICollection<Reply> Replies { get; set; }
-        public AppUser AppUser { get; set; }
-        public string AppUserID { get; set; }
-        public Category Category { get; set; }
-        public int CategoryID { get; set; }
-        public TopicType TopicType { get; set; }
-        public int TopicTypeID { get; set; }
+        public string AppUser { get; set; }
+        public string CategoryTitle { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
     }
