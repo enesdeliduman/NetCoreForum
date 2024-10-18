@@ -4,9 +4,7 @@
     {
         public int ReplyID { get; set; }
         public string ReplyContent { get; set; }
-        public int ReplyLikeCount { get; set; }
-        public int ReplyViewCount { get; set; }
-
+        public int ReplyLikeCount { get; set; } = 0;
         public AppUser AppUser { get; set; }
         public string AppUserID { get; set; }
 

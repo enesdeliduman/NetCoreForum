@@ -98,6 +98,33 @@
   background-color: #2196f3;
 }
 
+.user-info-card {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 20px;
+  width: 100%;
+  border: 1px solid #282828;
+}
+.user-info-card img {
+  width: 100px !important;
+  object-fit: cover;
+}
+.user-info-card .texts {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  gap: 10px;
+  flex-direction: column;
+}
+.user-info-card .texts .username {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.user-info-card .texts .biography {
+  font-size: 1.5rem;
+}
+
 /** GENERAL SETTINGS **/
 *,
 *::after,
@@ -181,7 +208,8 @@ h4 {
   color: #b3b3b3;
 }
 
-a {
+a,
+span {
   text-decoration: none;
   font-family: "Open Sans", sans-serif;
   color: #b3b3b3;
@@ -256,6 +284,42 @@ nav .top-nav .auth {
 }
 .home-area .topics .table-line span {
   color: #b3b3b3;
+}
+
+.topic-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}
+.topic-area .topic-reply {
+  background-color: #1e1e1e;
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+.topic-area .topic-reply .user {
+  width: 100%;
+}
+.topic-area .topic-reply .reply {
+  padding: 2rem 1rem;
+  border: 1px solid #282828;
+  border-top: none;
+  width: 100%;
+}
+.topic-area .topic-reply .reply p {
+  font-size: 1.6rem;
+}
+.topic-area .topic-reply .signature {
+  border: 1px solid #282828;
+  border-top: none;
+  font-size: 1.4rem;
+  width: 100%;
+  padding: 2rem 1rem;
 }
 
 .register-area {

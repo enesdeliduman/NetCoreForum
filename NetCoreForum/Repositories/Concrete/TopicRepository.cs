@@ -20,8 +20,12 @@ namespace NetCoreForum.Repositories.Concrete
 
         public async Task<GetTopicDTO> GetTopicByTopicID(int id)
         {
-            var data = await _context.Topics.Include(x => x.AppUser)
-                  .Include(x => x.Category).FirstOrDefaultAsync(x => x.TopicID == id);
+            var data = await _context.Topics
+               .Include(x => x.Category)
+               .Include(x => x.AppUser)
+               .Include(x => x.Replies)
+               .ThenInclude(x => x.AppUser)
+               .FirstOrDefaultAsync(x => x.TopicID == id);
             var value = _mapper.Map<GetTopicDTO>(data);
             return value;
         }

@@ -9,11 +9,11 @@ using NetCoreForum.Data;
 
 #nullable disable
 
-namespace NetCoreForum.Migrations
+namespace NetCoreForum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241013154406_NewColumnss")]
-    partial class NewColumnss
+    [Migration("20241018140944_wmejnrvhjs")]
+    partial class wmejnrvhjs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,33 +24,6 @@ namespace NetCoreForum.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -158,6 +131,33 @@ namespace NetCoreForum.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("NetCoreForum.Entites.AppRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
             modelBuilder.Entity("NetCoreForum.Entites.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -205,6 +205,9 @@ namespace NetCoreForum.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UserBiography")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -291,13 +294,13 @@ namespace NetCoreForum.Migrations
                         new
                         {
                             EmailConfigurationID = 1,
-                            CreatedAt = new DateTime(2024, 10, 13, 18, 44, 5, 913, DateTimeKind.Local).AddTicks(8212),
+                            CreatedAt = new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8787),
                             Port = 587,
                             SenderEmail = "iletisim@enesdeliduman.com",
                             SenderName = "İletişimm",
                             SenderPassword = "124124262114Ee",
                             SmtpServer = "mail.enesdeliduman.com",
-                            UpdatedAt = new DateTime(2024, 10, 13, 18, 44, 5, 913, DateTimeKind.Local).AddTicks(8213),
+                            UpdatedAt = new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8787),
                             UseSSL = true
                         });
                 });
@@ -425,9 +428,6 @@ namespace NetCoreForum.Migrations
                     b.Property<int>("ReplyLikeCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReplyViewCount")
-                        .HasColumnType("int");
-
                     b.Property<int>("TopicID")
                         .HasColumnType("int");
 
@@ -524,14 +524,14 @@ namespace NetCoreForum.Migrations
                             SiteSettingsID = 1,
                             ContactEmail = "mail@mail.com",
                             ContactPhone = "0555 555 55 55",
-                            CreatedAt = new DateTime(2024, 10, 13, 18, 44, 5, 913, DateTimeKind.Local).AddTicks(8175),
+                            CreatedAt = new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8726),
                             FaviconPath = "forum-favicon.png",
-                            FooterText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+                            FooterText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                             LogoPath = "forum-logo.png",
                             MaxWarningCountForAppUser = 5,
                             RequireAdminApproval = false,
                             SiteName = "NetCoreForum",
-                            UpdatedAt = new DateTime(2024, 10, 13, 18, 44, 5, 913, DateTimeKind.Local).AddTicks(8189)
+                            UpdatedAt = new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8740)
                         });
                 });
 
@@ -549,6 +549,9 @@ namespace NetCoreForum.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("TopicContent")
                         .HasColumnType("nvarchar(max)");
 
@@ -563,6 +566,9 @@ namespace NetCoreForum.Migrations
 
                     b.Property<int>("TopicViewCount")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("TopicID");
 
@@ -653,110 +659,110 @@ namespace NetCoreForum.Migrations
                         {
                             EmailTemplateID = 1,
                             Body = "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın: {reset_link}",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7970),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8303),
                             Subject = "Şifre Sıfırlama Talebi",
                             TemplateName = "ForgotPassword",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7971),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8304),
                             ViewedTemplateName = "Şifremi Unuttum"
                         },
                         new
                         {
                             EmailTemplateID = 2,
                             Body = "Kayıt olduğunuz için teşekkürler! Hesabınıza hoş geldiniz.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7974),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8309),
                             Subject = "Hoş geldiniz!",
                             TemplateName = "Welcome",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7974),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8310),
                             ViewedTemplateName = "Hoş Geldiniz"
                         },
                         new
                         {
                             EmailTemplateID = 3,
                             Body = "Şifreniz başarıyla değiştirildi. Herhangi bir sorunla karşılaşırsanız, lütfen bizimle iletişime geçin.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7977),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8313),
                             Subject = "Şifre Değişikliğiniz Başarılı",
                             TemplateName = "ChangePassword",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7977),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8313),
                             ViewedTemplateName = "Şifre Değişikliği"
                         },
                         new
                         {
                             EmailTemplateID = 4,
                             Body = "Hesabınız başarıyla onaylandı. Artık sitemizi kullanabilirsiniz.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7979),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8316),
                             Subject = "Hesabınız Onaylandı",
                             TemplateName = "ConfirmAccount",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7980),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8317),
                             ViewedTemplateName = "Hesap Onayı"
                         },
                         new
                         {
                             EmailTemplateID = 5,
                             Body = "Foruma üye olduğunuz için teşekkürler! Hesabınız yönetici onayını bekliyor. Onaylandıktan sonra giriş yapabilirsiniz.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7982),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8320),
                             Subject = "Hesap Onayınızı Bekliyor",
                             TemplateName = "AccountPendingApproval",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7982),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8320),
                             ViewedTemplateName = "Hesap Beklemede"
                         },
                         new
                         {
                             EmailTemplateID = 6,
                             Body = "Tebrikler! Hesabınız başarıyla onaylandı ve artık foruma giriş yapabilirsiniz. Hoş geldiniz!",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7984),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8324),
                             Subject = "Hesabınız Onaylandı",
                             TemplateName = "AccountApproved",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7985),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8324),
                             ViewedTemplateName = "Hesap Onaylandı"
                         },
                         new
                         {
                             EmailTemplateID = 7,
                             Body = "Üzgünüz, hesabınız onaylanmadı. Daha fazla bilgi almak için lütfen yönetici ile iletişime geçin.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7987),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8327),
                             Subject = "Hesabınız Onaylanmadı",
                             TemplateName = "AccountNotApproved",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7987),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8328),
                             ViewedTemplateName = "Hesap Onaylanmadı"
                         },
                         new
                         {
                             EmailTemplateID = 8,
                             Body = "Hesabınız silindi. Eğer bu işlem siz tarafından yapılmadıysa lütfen bizimle iletişime geçin.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7989),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8331),
                             Subject = "Hesabınız Silindi",
                             TemplateName = "AccountDeleted",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7990),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8331),
                             ViewedTemplateName = "Hesap Silindi"
                         },
                         new
                         {
                             EmailTemplateID = 9,
                             Body = "Merhaba {username}, \n\nBu size gönderilen {warning_count}. uyarıdır. 5 uyarıya ulaştığınızda hesabınız otomatik olarak silinecektir. Lütfen site kurallarına uyun.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7992),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8334),
                             Subject = "Uyarı Aldınız - {warning_count}. Uyarı",
                             TemplateName = "WarningEmail",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7993),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8335),
                             ViewedTemplateName = "Uyarı Mesajı"
                         },
                         new
                         {
                             EmailTemplateID = 10,
                             Body = "Merhaba, \n\nMaksimum uyarı sayısına ulaştığınız için kalıcı olarak hesabınız askıya alınmıştır. Eğer bu işlem hakkında sorularınız varsa, lütfen bizimle iletişime geçin.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7995),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8338),
                             Subject = "Hesabınız Silindi",
                             TemplateName = "AccountDeletedDueToWarnings",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7995),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8339),
                             ViewedTemplateName = "Hesap Silindi"
                         },
                         new
                         {
                             EmailTemplateID = 11,
-                            Body = "Merhaba Kayıt işleminizi tamamlamak için lütfen aşağıdaki bağlantıya tıklayarak e-posta adresinizi onaylayın:",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7997),
+                            Body = "Merhaba, Kayıt işleminizi tamamlamak için lütfen aşağıdaki bağlantıya tıklayarak e-posta adresinizi onaylayın:",
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8341),
                             Subject = "E-posta Onayı Gerekli",
                             TemplateName = "EmailConfirmation",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 44, 5, 913, DateTimeKind.Utc).AddTicks(7998),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8342),
                             ViewedTemplateName = "E-posta Onayı"
                         });
                 });
@@ -831,7 +837,7 @@ namespace NetCoreForum.Migrations
                         new
                         {
                             ErrorMessageID = 9,
-                            ErrorMessageDescription = "Hesabınız henüz onaylanmamıştır. Lütfen e-posta adresinizi kontrol edin.",
+                            ErrorMessageDescription = "Lütfen e-posta adresinizi onaylayınız. Mail kutunuzu kontrol ediniz.",
                             ErrorMessageName = "UserNotConfirmed"
                         },
                         new
@@ -934,7 +940,7 @@ namespace NetCoreForum.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("NetCoreForum.Entites.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -961,7 +967,7 @@ namespace NetCoreForum.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("NetCoreForum.Entites.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

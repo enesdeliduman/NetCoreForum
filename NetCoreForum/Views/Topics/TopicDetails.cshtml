@@ -1,4 +1,88 @@
-﻿@model GetTopicDTO
+﻿@using System.Security.Claims
+@model GetTopicDTO
 
-@Model.TopicID
-@Model.TopicTitle
+
+<div class="topic-area">
+    <div class="topic-reply publisher">
+        <div class="user">
+            <div class="box user-info-card user-info-card-horizantal">
+                <img src="~/img/@Model.AppUser.UserPhoto" class="user-profile-photo">
+                <div class="texts">
+                    <a href="#" class="username">@Model.AppUser.UserName</a>
+                    <span class="biography">@Model.AppUser.UserBiography</span>
+                </div>
+            </div>
+        </div>
+        <div class="reply">
+            <p>@Model.TopicContent</p>
+        </div>
+        <p class="signature">@Model.AppUser.UserSignature</p>
+    </div>
+
+    @foreach (var reply in Model.Replies)
+    {
+        <div class="topic-reply">
+            <div class="user">
+                <div class="box user-info-card user-info-card-vertical">
+                    <img src="~/img/@reply.AppUser.UserPhoto" class="user-profile-photo">
+                    <div class="texts">
+                        <a href="#" class="username">@reply.AppUser.UserName</a>
+                        <span class="biography">@reply.AppUser.UserBiography</span>
+                    </div>
+                </div>
+            </div>
+            <div class="reply">
+                <p>
+                    @reply.ReplyContent
+                </p>
+            </div>
+            <p class="signature">
+                @reply.AppUser.UserSignature
+            </p>
+        </div>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form id="replyForm" method="post">
+            <textarea name="ReplyContent" required></textarea>
+            <button type="submit">Gönder</button>
+        </form>
+    }
+    else
+    {
+        <p>Yorum yapmak için <a href="@Url.Action("Login", "Auth")">giriş yapın</a>.</p>
+    }
+    <div id="responseMessage"></div>
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#replyForm').on('submit', function (event) {
+                    event.preventDefault();
+
+                    var formData = new FormData(this);
+                    formData.append('AppUserID', '@User.FindFirst(ClaimTypes.NameIdentifier)?.Value');
+                    formData.append('TopicID', '@Model.TopicID');
+
+                    $.ajax({
+                        url: '@Url.Action("CreateReply", "Replys")',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            $('#responseMessage').html('<p>Yanıt başarıyla gönderildi!</p>');
+                            $('#replyForm')[0].reset();
+                        },
+                        error: function (xhr, status, error) {
+                            $('#responseMessage').html('<p>Hata: ' + error + '</p>');
+                        }
+                    });
+                });
+            });
+        </script>
+
+
+    }
+</div>

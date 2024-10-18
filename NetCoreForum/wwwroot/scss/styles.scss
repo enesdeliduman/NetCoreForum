@@ -81,9 +81,9 @@ h4 {
   color: $secondary-text-color;
 }
 
-a {
+a,
+span {
   text-decoration: none;
-
   font-family: $primary-font;
   color: $secondary-text-color;
 }
@@ -157,6 +157,39 @@ nav {
       span {
         color: $secondary-text-color;
       }
+    }
+  }
+}
+
+.topic-area {
+  @include flex-display(flex, center, center);
+  flex-direction: column;
+  gap: 40px;
+  .topic-reply {
+    background-color: $secondary-background-color;
+    width: 100%;
+    @include flex-display(flex, start, center);
+    width: 100%;
+    flex-direction: column;
+    .user{
+      width: 100%;
+    }
+    .reply {
+      padding: 2rem 1rem;
+      border: 1px solid $border-color;
+      border-top: none;
+      width: 100%;
+      p {
+        font-size: 1.6rem;
+      }
+    }
+    .signature{
+      border: 1px solid $border-color;
+      border-top: none;
+      font-size: 1.4rem;
+      width: 100%;
+      padding: 2rem 1rem
+      
     }
   }
 }

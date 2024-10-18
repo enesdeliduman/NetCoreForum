@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetCoreForum.Data;
 
 #nullable disable
 
-namespace NetCoreForum.Migrations
+namespace NetCoreForum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241013151337_InitialCreatenew2w")]
-    partial class InitialCreatenew2w
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,33 +21,6 @@ namespace NetCoreForum.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -158,6 +128,33 @@ namespace NetCoreForum.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("NetCoreForum.Entites.AppRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
             modelBuilder.Entity("NetCoreForum.Entites.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -205,6 +202,9 @@ namespace NetCoreForum.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UserBiography")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -291,13 +291,13 @@ namespace NetCoreForum.Migrations
                         new
                         {
                             EmailConfigurationID = 1,
-                            CreatedAt = new DateTime(2024, 10, 13, 18, 13, 35, 696, DateTimeKind.Local).AddTicks(9115),
+                            CreatedAt = new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8787),
                             Port = 587,
                             SenderEmail = "iletisim@enesdeliduman.com",
                             SenderName = "İletişimm",
                             SenderPassword = "124124262114Ee",
                             SmtpServer = "mail.enesdeliduman.com",
-                            UpdatedAt = new DateTime(2024, 10, 13, 18, 13, 35, 696, DateTimeKind.Local).AddTicks(9115),
+                            UpdatedAt = new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8787),
                             UseSSL = true
                         });
                 });
@@ -425,9 +425,6 @@ namespace NetCoreForum.Migrations
                     b.Property<int>("ReplyLikeCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReplyViewCount")
-                        .HasColumnType("int");
-
                     b.Property<int>("TopicID")
                         .HasColumnType("int");
 
@@ -524,14 +521,14 @@ namespace NetCoreForum.Migrations
                             SiteSettingsID = 1,
                             ContactEmail = "mail@mail.com",
                             ContactPhone = "0555 555 55 55",
-                            CreatedAt = new DateTime(2024, 10, 13, 18, 13, 35, 696, DateTimeKind.Local).AddTicks(9068),
+                            CreatedAt = new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8726),
                             FaviconPath = "forum-favicon.png",
-                            FooterText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+                            FooterText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                             LogoPath = "forum-logo.png",
                             MaxWarningCountForAppUser = 5,
                             RequireAdminApproval = false,
                             SiteName = "NetCoreForum",
-                            UpdatedAt = new DateTime(2024, 10, 13, 18, 13, 35, 696, DateTimeKind.Local).AddTicks(9080)
+                            UpdatedAt = new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8740)
                         });
                 });
 
@@ -549,6 +546,9 @@ namespace NetCoreForum.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("TopicContent")
                         .HasColumnType("nvarchar(max)");
 
@@ -563,6 +563,9 @@ namespace NetCoreForum.Migrations
 
                     b.Property<int>("TopicViewCount")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("TopicID");
 
@@ -653,110 +656,110 @@ namespace NetCoreForum.Migrations
                         {
                             EmailTemplateID = 1,
                             Body = "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın: {reset_link}",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8833),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8303),
                             Subject = "Şifre Sıfırlama Talebi",
                             TemplateName = "ForgotPassword",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8833),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8304),
                             ViewedTemplateName = "Şifremi Unuttum"
                         },
                         new
                         {
                             EmailTemplateID = 2,
                             Body = "Kayıt olduğunuz için teşekkürler! Hesabınıza hoş geldiniz.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8836),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8309),
                             Subject = "Hoş geldiniz!",
                             TemplateName = "Welcome",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8837),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8310),
                             ViewedTemplateName = "Hoş Geldiniz"
                         },
                         new
                         {
                             EmailTemplateID = 3,
                             Body = "Şifreniz başarıyla değiştirildi. Herhangi bir sorunla karşılaşırsanız, lütfen bizimle iletişime geçin.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8840),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8313),
                             Subject = "Şifre Değişikliğiniz Başarılı",
                             TemplateName = "ChangePassword",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8841),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8313),
                             ViewedTemplateName = "Şifre Değişikliği"
                         },
                         new
                         {
                             EmailTemplateID = 4,
                             Body = "Hesabınız başarıyla onaylandı. Artık sitemizi kullanabilirsiniz.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8843),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8316),
                             Subject = "Hesabınız Onaylandı",
                             TemplateName = "ConfirmAccount",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8843),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8317),
                             ViewedTemplateName = "Hesap Onayı"
                         },
                         new
                         {
                             EmailTemplateID = 5,
                             Body = "Foruma üye olduğunuz için teşekkürler! Hesabınız yönetici onayını bekliyor. Onaylandıktan sonra giriş yapabilirsiniz.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8845),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8320),
                             Subject = "Hesap Onayınızı Bekliyor",
                             TemplateName = "AccountPendingApproval",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8846),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8320),
                             ViewedTemplateName = "Hesap Beklemede"
                         },
                         new
                         {
                             EmailTemplateID = 6,
                             Body = "Tebrikler! Hesabınız başarıyla onaylandı ve artık foruma giriş yapabilirsiniz. Hoş geldiniz!",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8848),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8324),
                             Subject = "Hesabınız Onaylandı",
                             TemplateName = "AccountApproved",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8849),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8324),
                             ViewedTemplateName = "Hesap Onaylandı"
                         },
                         new
                         {
                             EmailTemplateID = 7,
                             Body = "Üzgünüz, hesabınız onaylanmadı. Daha fazla bilgi almak için lütfen yönetici ile iletişime geçin.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8851),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8327),
                             Subject = "Hesabınız Onaylanmadı",
                             TemplateName = "AccountNotApproved",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8851),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8328),
                             ViewedTemplateName = "Hesap Onaylanmadı"
                         },
                         new
                         {
                             EmailTemplateID = 8,
                             Body = "Hesabınız silindi. Eğer bu işlem siz tarafından yapılmadıysa lütfen bizimle iletişime geçin.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8854),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8331),
                             Subject = "Hesabınız Silindi",
                             TemplateName = "AccountDeleted",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8854),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8331),
                             ViewedTemplateName = "Hesap Silindi"
                         },
                         new
                         {
                             EmailTemplateID = 9,
                             Body = "Merhaba {username}, \n\nBu size gönderilen {warning_count}. uyarıdır. 5 uyarıya ulaştığınızda hesabınız otomatik olarak silinecektir. Lütfen site kurallarına uyun.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8856),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8334),
                             Subject = "Uyarı Aldınız - {warning_count}. Uyarı",
                             TemplateName = "WarningEmail",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8857),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8335),
                             ViewedTemplateName = "Uyarı Mesajı"
                         },
                         new
                         {
                             EmailTemplateID = 10,
                             Body = "Merhaba, \n\nMaksimum uyarı sayısına ulaştığınız için kalıcı olarak hesabınız askıya alınmıştır. Eğer bu işlem hakkında sorularınız varsa, lütfen bizimle iletişime geçin.",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8859),
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8338),
                             Subject = "Hesabınız Silindi",
                             TemplateName = "AccountDeletedDueToWarnings",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8859),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8339),
                             ViewedTemplateName = "Hesap Silindi"
                         },
                         new
                         {
                             EmailTemplateID = 11,
-                            Body = "Merhaba Kayıt işleminizi tamamlamak için lütfen aşağıdaki bağlantıya tıklayarak e-posta adresinizi onaylayın:",
-                            CreatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8861),
+                            Body = "Merhaba, Kayıt işleminizi tamamlamak için lütfen aşağıdaki bağlantıya tıklayarak e-posta adresinizi onaylayın:",
+                            CreatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8341),
                             Subject = "E-posta Onayı Gerekli",
                             TemplateName = "EmailConfirmation",
-                            UpdatedAt = new DateTime(2024, 10, 13, 15, 13, 35, 696, DateTimeKind.Utc).AddTicks(8862),
+                            UpdatedAt = new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8342),
                             ViewedTemplateName = "E-posta Onayı"
                         });
                 });
@@ -768,9 +771,6 @@ namespace NetCoreForum.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ErrorMessageID"));
-
-                    b.Property<string>("ErrorMessageContent")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ErrorMessageDescription")
                         .HasColumnType("nvarchar(max)");
@@ -786,183 +786,158 @@ namespace NetCoreForum.Migrations
                         new
                         {
                             ErrorMessageID = 1,
-                            ErrorMessageContent = "Aradığınız kayıt bulunamadı.",
-                            ErrorMessageDescription = "Kullanıcı tarafından istenen kaynak sistemde mevcut değil.",
+                            ErrorMessageDescription = "Aradığınız kayıt bulunamadı.",
                             ErrorMessageName = "NotFound"
                         },
                         new
                         {
                             ErrorMessageID = 2,
-                            ErrorMessageContent = "Bu işlemi gerçekleştirmek için yetkiniz yok.",
-                            ErrorMessageDescription = "Kullanıcının bu işlemi yapma yetkisi yok.",
+                            ErrorMessageDescription = "Bu işlemi gerçekleştirmek için yetkiniz yok.",
                             ErrorMessageName = "UnauthorizedAccess"
                         },
                         new
                         {
                             ErrorMessageID = 3,
-                            ErrorMessageContent = "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
-                            ErrorMessageDescription = "Beklenmeyen bir sunucu hatası meydana geldi.",
+                            ErrorMessageDescription = "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
                             ErrorMessageName = "ServerError"
                         },
                         new
                         {
                             ErrorMessageID = 4,
-                            ErrorMessageContent = "Formda hatalar var. Lütfen kontrol edin.",
-                            ErrorMessageDescription = "Kullanıcı tarafından doldurulan formda geçersiz bilgiler var.",
+                            ErrorMessageDescription = "Formda hatalar var. Lütfen kontrol edin.",
                             ErrorMessageName = "ValidationError"
                         },
                         new
                         {
                             ErrorMessageID = 5,
-                            ErrorMessageContent = "Giriş bilgileri hatalı. Lütfen tekrar deneyin.",
-                            ErrorMessageDescription = "Kullanıcı adı veya şifre hatalı.",
+                            ErrorMessageDescription = "Giriş bilgileri hatalı. Lütfen tekrar deneyin.",
                             ErrorMessageName = "InvalidLogin"
                         },
                         new
                         {
                             ErrorMessageID = 6,
-                            ErrorMessageContent = "Hesabınız kilitlenmiştir. Lütfen destek ile iletişime geçin.",
-                            ErrorMessageDescription = "Hesap güvenlik nedenleriyle kilitlenmiştir.",
+                            ErrorMessageDescription = "Hesabınız kilitlenmiştir. Lütfen destek ile iletişime geçin.",
                             ErrorMessageName = "AccountLocked"
                         },
                         new
                         {
                             ErrorMessageID = 7,
-                            ErrorMessageContent = "Parola en az 6 karakter olmalıdır ve en az bir büyük harf, bir küçük harf ve bir rakam içermelidir.",
-                            ErrorMessageDescription = "Kullanıcının belirlediği parola güvenlik standartlarına uymuyor.",
+                            ErrorMessageDescription = "Parola en az 6 karakter olmalıdır ve en az bir büyük harf, bir küçük harf ve bir rakam içermelidir.",
                             ErrorMessageName = "PasswordTooWeak"
                         },
                         new
                         {
                             ErrorMessageID = 8,
-                            ErrorMessageContent = "Bu e-posta adresi zaten kullanılıyor.",
-                            ErrorMessageDescription = "Başka bir hesapta aynı e-posta adresi kullanılmış.",
+                            ErrorMessageDescription = "Bu e-posta adresi zaten kullanılıyor.",
                             ErrorMessageName = "EmailAlreadyUsed"
                         },
                         new
                         {
                             ErrorMessageID = 9,
-                            ErrorMessageContent = "Hesabınız henüz onaylanmamıştır. Lütfen e-posta adresinizi kontrol edin.",
-                            ErrorMessageDescription = "Kullanıcı, e-posta doğrulama adımını tamamlamıştır.",
+                            ErrorMessageDescription = "Lütfen e-posta adresinizi onaylayınız. Mail kutunuzu kontrol ediniz.",
                             ErrorMessageName = "UserNotConfirmed"
                         },
                         new
                         {
                             ErrorMessageID = 10,
-                            ErrorMessageContent = "E-posta adresi veya parola hatalı.",
-                            ErrorMessageDescription = "Kullanıcı giriş bilgileri hatalı.",
+                            ErrorMessageDescription = "E-posta adresi veya parola hatalı.",
                             ErrorMessageName = "InvalidEmailOrPassword"
                         },
                         new
                         {
                             ErrorMessageID = 11,
-                            ErrorMessageContent = "Hesabınız henüz onaylanmamıştır ve bekleme listesinde bulunmaktadır. Lütfen biraz daha bekleyin.",
-                            ErrorMessageDescription = "Kullanıcının hesabı henüz onaylanmamıştır.",
+                            ErrorMessageDescription = "Hesabınız henüz onaylanmamıştır ve bekleme listesinde bulunmaktadır. Lütfen biraz daha bekleyin.",
                             ErrorMessageName = "AccountPendingApproval"
                         },
                         new
                         {
                             ErrorMessageID = 12,
-                            ErrorMessageContent = "Bu kayıt zaten mevcut.",
-                            ErrorMessageDescription = "Kullanıcının girmeye çalıştığı kayıt sistemde zaten mevcut.",
+                            ErrorMessageDescription = "Bu kayıt zaten mevcut.",
                             ErrorMessageName = "DuplicateEntry"
                         },
                         new
                         {
                             ErrorMessageID = 13,
-                            ErrorMessageContent = "Kayıt işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin.",
-                            ErrorMessageDescription = "Kullanıcı kaydı sırasında beklenmeyen bir hata meydana geldi.",
+                            ErrorMessageDescription = "Kayıt işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin.",
                             ErrorMessageName = "RegistrationFailed"
                         },
                         new
                         {
                             ErrorMessageID = 14,
-                            ErrorMessageContent = "Şifre değişikliği sırasında bir hata oluştu.",
-                            ErrorMessageDescription = "Şifre değişikliği işlemi başarısız oldu.",
+                            ErrorMessageDescription = "Şifre değişikliği sırasında bir hata oluştu.",
                             ErrorMessageName = "PasswordChangeFailed"
                         },
                         new
                         {
                             ErrorMessageID = 15,
-                            ErrorMessageContent = "Eski şifreniz hatalı.",
-                            ErrorMessageDescription = "Kullanıcının girdiği eski şifre sistemdeki ile eşleşmiyor.",
+                            ErrorMessageDescription = "Eski şifreniz hatalı.",
                             ErrorMessageName = "OldPasswordIncorrect"
                         },
                         new
                         {
                             ErrorMessageID = 16,
-                            ErrorMessageContent = "E-posta gönderme işlemi sırasında bir hata oluştu.",
-                            ErrorMessageDescription = "E-posta gönderilirken bir hata meydana geldi.",
+                            ErrorMessageDescription = "E-posta gönderme işlemi sırasında bir hata oluştu.",
                             ErrorMessageName = "EmailSendFailed"
                         },
                         new
                         {
                             ErrorMessageID = 17,
-                            ErrorMessageContent = "Bu e-posta adresine ait bir hesap bulunamadı.",
-                            ErrorMessageDescription = "Kullanıcının belirttiği e-posta adresi ile ilişkilendirilmiş bir hesap bulunamıyor.",
+                            ErrorMessageDescription = "Bu e-posta adresine ait bir hesap bulunamadı.",
                             ErrorMessageName = "EmailNotFound"
                         },
                         new
                         {
                             ErrorMessageID = 18,
-                            ErrorMessageContent = "Bu alanın doldurulması zorunludur.",
-                            ErrorMessageDescription = "Kullanıcı tarafından doldurulması gereken bir alan boş bırakılmış.",
+                            ErrorMessageDescription = "Bu alanın doldurulması zorunludur.",
                             ErrorMessageName = "RequiredField"
                         },
                         new
                         {
                             ErrorMessageID = 19,
-                            ErrorMessageContent = "Geçersiz format. Lütfen kontrol edin.",
-                            ErrorMessageDescription = "Kullanıcının girdiği veri formatı beklenen formatla uyuşmuyor.",
+                            ErrorMessageDescription = "Geçersiz format. Lütfen kontrol edin.",
                             ErrorMessageName = "InvalidFormat"
                         },
                         new
                         {
                             ErrorMessageID = 20,
-                            ErrorMessageContent = "İşlem gerçekleştirilemedi. Lütfen daha sonra tekrar deneyin.",
-                            ErrorMessageDescription = "Kullanıcının gerçekleştirmeye çalıştığı işlem başarıyla tamamlanamadı.",
+                            ErrorMessageDescription = "İşlem gerçekleştirilemedi. Lütfen daha sonra tekrar deneyin.",
                             ErrorMessageName = "OperationFailed"
                         },
                         new
                         {
                             ErrorMessageID = 21,
-                            ErrorMessageContent = "Geçersiz istek. Lütfen kontrol edin.",
-                            ErrorMessageDescription = "Kullanıcı tarafından gönderilen istek geçersiz.",
+                            ErrorMessageDescription = "Geçersiz istek. Lütfen kontrol edin.",
                             ErrorMessageName = "InvalidRequest"
                         },
                         new
                         {
                             ErrorMessageID = 22,
-                            ErrorMessageContent = "Bu eylem izin verilenler arasında değil.",
-                            ErrorMessageDescription = "Kullanıcının gerçekleştirmeye çalıştığı eylem sistemde izin verilmemiş.",
+                            ErrorMessageDescription = "Bu eylem izin verilenler arasında değil.",
                             ErrorMessageName = "ActionNotAllowed"
                         },
                         new
                         {
                             ErrorMessageID = 23,
-                            ErrorMessageContent = "Dosya yükleme işlemi sırasında bir hata oluştu.",
-                            ErrorMessageDescription = "Kullanıcının yüklemeye çalıştığı dosya başarısız oldu.",
+                            ErrorMessageDescription = "Dosya yükleme işlemi sırasında bir hata oluştu.",
                             ErrorMessageName = "FileUploadFailed"
                         },
                         new
                         {
                             ErrorMessageID = 24,
-                            ErrorMessageContent = "Bu dosya türü desteklenmiyor.",
-                            ErrorMessageDescription = "Kullanıcının yüklemeye çalıştığı dosya türü sistemde desteklenmiyor.",
+                            ErrorMessageDescription = "Bu dosya türü desteklenmiyor.",
                             ErrorMessageName = "FileTypeNotAllowed"
                         },
                         new
                         {
                             ErrorMessageID = 25,
-                            ErrorMessageContent = "Dosya boyutu limitini aşıyor.",
-                            ErrorMessageDescription = "Kullanıcının yüklemeye çalıştığı dosyanın boyutu belirlenen limitin üzerinde.",
+                            ErrorMessageDescription = "Dosya boyutu limitini aşıyor.",
                             ErrorMessageName = "FileSizeExceeded"
                         });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("NetCoreForum.Entites.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -989,7 +964,7 @@ namespace NetCoreForum.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("NetCoreForum.Entites.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

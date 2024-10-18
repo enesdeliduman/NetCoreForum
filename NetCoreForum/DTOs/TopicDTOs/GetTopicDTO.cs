@@ -11,8 +11,8 @@ namespace NetCoreForum.DTOs.TopicDTOs
         public int TopicViewCount { get; set; }
 
         public ICollection<Reply> Replies { get; set; }
-        public string AppUser { get; set; }
-        public string CategoryTitle { get; set; }
+        public TopicOwnerAppUserDTO AppUser { get; set; }
+        public Category Category { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
     }

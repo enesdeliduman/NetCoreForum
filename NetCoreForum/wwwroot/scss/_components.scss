@@ -34,8 +34,8 @@
   transition: $general-transition;
   border: 1px solid $border-color;
   border-radius: $general-border-radius;
-  &-error{
-   border:1px solid $error-color
+  &-error {
+    border: 1px solid $error-color;
   }
   &:focus-visible {
     outline: none;
@@ -49,22 +49,45 @@
   }
 }
 
-.alert{
+.alert {
   width: 100%;
   font-size: 1.5rem;
   color: $primary-text-color;
   padding: 1rem 1.5rem;
   border-radius: $general-border-radius;
-  &-warning{
+  &-warning {
     background-color: $warning-color;
   }
-  &-error{
+  &-error {
     background-color: $error-color;
   }
-  &-success{
+  &-success {
     background-color: $success-color;
   }
-  &-info{
+  &-info {
     background-color: $info-color;
   }
 }
+
+.user-info-card {
+    @include flex-display(flex, center, start);
+    gap: 20px;
+    width: 100%;
+    border: 1px solid $border-color;
+    img {
+      width: 100px !important;
+      object-fit: cover;
+    }
+    .texts {
+      @include flex-display(flex, start, start);
+      gap: 10px;
+      flex-direction: column;
+      .username {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+      .biography {
+        font-size: 1.5rem;
+      }
+    }
+  }

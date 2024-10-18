@@ -6,6 +6,7 @@ namespace NetCoreForum.Entites
     {
         public string? UserPhoto { get; set; } = "default-user.png";
         public string? UserSignature { get; set; }
+        public string? UserBiography { get; set; }
         public bool isActive { get; set; }
         public ICollection<Warning> Warnings { get; set; } = new List<Warning>();
         public ICollection<Reply> Replies { get; set; } = new List<Reply>();

@@ -9,6 +9,7 @@ using NetCoreForum.Entites;
 using NetCoreForum.Repositories.Abstract;
 using NetCoreForum.Repositories.Concrete;
 using NetCoreForum.ViewModels.UserViewModels;
+using System.Security.Claims;
 
 namespace NetCoreForum.Controllers
 {
@@ -130,6 +131,14 @@ namespace NetCoreForum.Controllers
                             var result = await _signInManager.PasswordSignInAsync(user, userLoginViewModel.Password, userLoginViewModel.RememberMe, true);
                             if (result.Succeeded)
                             {
+                                var userClaims = new List<Claim>
+                                {
+                                    new(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                                    new (ClaimTypes.Name, user.UserName ?? ""),
+                                    new (ClaimTypes.UserData, user.UserPhoto?? ""),
+                                };
+
+
                                 await _userManager.ResetAccessFailedCountAsync(user);
                                 await _userManager.SetLockoutEndDateAsync(user, null);
                                 return RedirectToAction("Index", "Home");

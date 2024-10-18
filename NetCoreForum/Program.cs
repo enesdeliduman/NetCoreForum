@@ -38,6 +38,7 @@ builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 builder.Services.AddScoped<IPendingUserRepository, PendingUserRepository>();
 builder.Services.AddScoped<IErrorMessageRepository, ErrorMessageRepository>();
 builder.Services.AddScoped<ITopicRepository, TopicRepository>();
+builder.Services.AddScoped<IReplyRepository, ReplyRepository>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

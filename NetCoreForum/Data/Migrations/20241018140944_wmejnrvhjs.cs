@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace NetCoreForum.Migrations
+namespace NetCoreForum.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class wmejnrvhjs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,6 +34,7 @@ namespace NetCoreForum.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserSignature = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserBiography = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -95,9 +96,10 @@ namespace NetCoreForum.Migrations
                 {
                     EmailTemplateID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TemplateName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ViewedTemplateName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TemplateName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -110,36 +112,14 @@ namespace NetCoreForum.Migrations
                 name: "ErrorMessages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ErrorMessageID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NotFoundMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UnauthorizedAccessMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ServerErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ValidationErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InvalidLoginMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccountLockedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PasswordTooWeakMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailAlreadyUsedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserNotConfirmedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InvalidEmailOrPasswordMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DuplicateEntryMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RegistrationFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PasswordChangeFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OldPasswordIncorrectMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailSendFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailNotFoundMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RequiredFieldMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InvalidFormatMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OperationFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InvalidRequestMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActionNotAllowedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FileUploadFailedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FileTypeNotAllowedMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FileSizeExceededMessage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ErrorMessageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorMessageDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ErrorMessages", x => x.Id);
+                    table.PrimaryKey("PK_ErrorMessages", x => x.ErrorMessageID);
                 });
 
             migrationBuilder.CreateTable(
@@ -350,7 +330,6 @@ namespace NetCoreForum.Migrations
                     PendingUserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
                     AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -420,7 +399,9 @@ namespace NetCoreForum.Migrations
                     TopicViewCount = table.Column<int>(type: "int", nullable: false),
                     AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CategoryID = table.Column<int>(type: "int", nullable: false),
-                    TopicTypeID = table.Column<int>(type: "int", nullable: false)
+                    TopicTypeID = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -452,7 +433,6 @@ namespace NetCoreForum.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ReplyContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReplyLikeCount = table.Column<int>(type: "int", nullable: false),
-                    ReplyViewCount = table.Column<int>(type: "int", nullable: false),
                     AppUserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TopicID = table.Column<int>(type: "int", nullable: false)
                 },
@@ -474,15 +454,64 @@ namespace NetCoreForum.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "EmailConfigurations",
+                columns: new[] { "EmailConfigurationID", "CreatedAt", "Port", "SenderEmail", "SenderName", "SenderPassword", "SmtpServer", "UpdatedAt", "UseSSL" },
+                values: new object[] { 1, new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8787), 587, "iletisim@enesdeliduman.com", "İletişimm", "124124262114Ee", "mail.enesdeliduman.com", new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8787), true });
+
+            migrationBuilder.InsertData(
                 table: "EmailTemplates",
-                columns: new[] { "EmailTemplateID", "Body", "CreatedAt", "Subject", "TemplateName", "UpdatedAt" },
+                columns: new[] { "EmailTemplateID", "Body", "CreatedAt", "Subject", "TemplateName", "UpdatedAt", "ViewedTemplateName" },
                 values: new object[,]
                 {
-                    { 1, "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın: {reset_link}", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6606), "Şifre Sıfırlama Talebi", "Şifremi Unuttum", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6606) },
-                    { 2, "Kayıt olduğunuz için teşekkürler! Hesabınıza hoş geldiniz.", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6609), "Hoş geldiniz!", "Hoş Geldiniz", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6610) },
-                    { 3, "Şifreniz başarıyla değiştirildi. Herhangi bir sorunla karşılaşırsanız, lütfen bizimle iletişime geçin.", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6612), "Şifre Değişikliğiniz Başarılı", "Şifre Değişikliği", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6613) },
-                    { 4, "Hesabınız başarıyla onaylandı. Artık sitemizi kullanabilirsiniz.", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6615), "Hesabınız Onaylandı", "Hesap Onayı", new DateTime(2024, 10, 12, 21, 49, 55, 405, DateTimeKind.Utc).AddTicks(6615) }
+                    { 1, "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın: {reset_link}", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8303), "Şifre Sıfırlama Talebi", "ForgotPassword", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8304), "Şifremi Unuttum" },
+                    { 2, "Kayıt olduğunuz için teşekkürler! Hesabınıza hoş geldiniz.", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8309), "Hoş geldiniz!", "Welcome", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8310), "Hoş Geldiniz" },
+                    { 3, "Şifreniz başarıyla değiştirildi. Herhangi bir sorunla karşılaşırsanız, lütfen bizimle iletişime geçin.", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8313), "Şifre Değişikliğiniz Başarılı", "ChangePassword", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8313), "Şifre Değişikliği" },
+                    { 4, "Hesabınız başarıyla onaylandı. Artık sitemizi kullanabilirsiniz.", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8316), "Hesabınız Onaylandı", "ConfirmAccount", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8317), "Hesap Onayı" },
+                    { 5, "Foruma üye olduğunuz için teşekkürler! Hesabınız yönetici onayını bekliyor. Onaylandıktan sonra giriş yapabilirsiniz.", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8320), "Hesap Onayınızı Bekliyor", "AccountPendingApproval", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8320), "Hesap Beklemede" },
+                    { 6, "Tebrikler! Hesabınız başarıyla onaylandı ve artık foruma giriş yapabilirsiniz. Hoş geldiniz!", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8324), "Hesabınız Onaylandı", "AccountApproved", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8324), "Hesap Onaylandı" },
+                    { 7, "Üzgünüz, hesabınız onaylanmadı. Daha fazla bilgi almak için lütfen yönetici ile iletişime geçin.", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8327), "Hesabınız Onaylanmadı", "AccountNotApproved", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8328), "Hesap Onaylanmadı" },
+                    { 8, "Hesabınız silindi. Eğer bu işlem siz tarafından yapılmadıysa lütfen bizimle iletişime geçin.", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8331), "Hesabınız Silindi", "AccountDeleted", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8331), "Hesap Silindi" },
+                    { 9, "Merhaba {username}, \n\nBu size gönderilen {warning_count}. uyarıdır. 5 uyarıya ulaştığınızda hesabınız otomatik olarak silinecektir. Lütfen site kurallarına uyun.", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8334), "Uyarı Aldınız - {warning_count}. Uyarı", "WarningEmail", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8335), "Uyarı Mesajı" },
+                    { 10, "Merhaba, \n\nMaksimum uyarı sayısına ulaştığınız için kalıcı olarak hesabınız askıya alınmıştır. Eğer bu işlem hakkında sorularınız varsa, lütfen bizimle iletişime geçin.", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8338), "Hesabınız Silindi", "AccountDeletedDueToWarnings", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8339), "Hesap Silindi" },
+                    { 11, "Merhaba, Kayıt işleminizi tamamlamak için lütfen aşağıdaki bağlantıya tıklayarak e-posta adresinizi onaylayın:", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8341), "E-posta Onayı Gerekli", "EmailConfirmation", new DateTime(2024, 10, 18, 14, 9, 43, 144, DateTimeKind.Utc).AddTicks(8342), "E-posta Onayı" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "ErrorMessages",
+                columns: new[] { "ErrorMessageID", "ErrorMessageDescription", "ErrorMessageName" },
+                values: new object[,]
+                {
+                    { 1, "Aradığınız kayıt bulunamadı.", "NotFound" },
+                    { 2, "Bu işlemi gerçekleştirmek için yetkiniz yok.", "UnauthorizedAccess" },
+                    { 3, "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.", "ServerError" },
+                    { 4, "Formda hatalar var. Lütfen kontrol edin.", "ValidationError" },
+                    { 5, "Giriş bilgileri hatalı. Lütfen tekrar deneyin.", "InvalidLogin" },
+                    { 6, "Hesabınız kilitlenmiştir. Lütfen destek ile iletişime geçin.", "AccountLocked" },
+                    { 7, "Parola en az 6 karakter olmalıdır ve en az bir büyük harf, bir küçük harf ve bir rakam içermelidir.", "PasswordTooWeak" },
+                    { 8, "Bu e-posta adresi zaten kullanılıyor.", "EmailAlreadyUsed" },
+                    { 9, "Lütfen e-posta adresinizi onaylayınız. Mail kutunuzu kontrol ediniz.", "UserNotConfirmed" },
+                    { 10, "E-posta adresi veya parola hatalı.", "InvalidEmailOrPassword" },
+                    { 11, "Hesabınız henüz onaylanmamıştır ve bekleme listesinde bulunmaktadır. Lütfen biraz daha bekleyin.", "AccountPendingApproval" },
+                    { 12, "Bu kayıt zaten mevcut.", "DuplicateEntry" },
+                    { 13, "Kayıt işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin.", "RegistrationFailed" },
+                    { 14, "Şifre değişikliği sırasında bir hata oluştu.", "PasswordChangeFailed" },
+                    { 15, "Eski şifreniz hatalı.", "OldPasswordIncorrect" },
+                    { 16, "E-posta gönderme işlemi sırasında bir hata oluştu.", "EmailSendFailed" },
+                    { 17, "Bu e-posta adresine ait bir hesap bulunamadı.", "EmailNotFound" },
+                    { 18, "Bu alanın doldurulması zorunludur.", "RequiredField" },
+                    { 19, "Geçersiz format. Lütfen kontrol edin.", "InvalidFormat" },
+                    { 20, "İşlem gerçekleştirilemedi. Lütfen daha sonra tekrar deneyin.", "OperationFailed" },
+                    { 21, "Geçersiz istek. Lütfen kontrol edin.", "InvalidRequest" },
+                    { 22, "Bu eylem izin verilenler arasında değil.", "ActionNotAllowed" },
+                    { 23, "Dosya yükleme işlemi sırasında bir hata oluştu.", "FileUploadFailed" },
+                    { 24, "Bu dosya türü desteklenmiyor.", "FileTypeNotAllowed" },
+                    { 25, "Dosya boyutu limitini aşıyor.", "FileSizeExceeded" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SiteSettings",
+                columns: new[] { "SiteSettingsID", "ContactEmail", "ContactPhone", "CreatedAt", "FaviconPath", "FooterText", "LogoPath", "MaxWarningCountForAppUser", "RequireAdminApproval", "SiteName", "UpdatedAt" },
+                values: new object[] { 1, "mail@mail.com", "0555 555 55 55", new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8726), "forum-favicon.png", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "forum-logo.png", 5, false, "NetCoreForum", new DateTime(2024, 10, 18, 17, 9, 43, 144, DateTimeKind.Local).AddTicks(8740) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
