@@ -33,7 +33,7 @@
             </div>
             <div class="reply">
                 <p>
-                    @reply.ReplyContent
+                    @Html.Raw(reply.ReplyContent)
                 </p>
             </div>
             <p class="signature">
@@ -45,42 +45,26 @@
     @if (User.Identity.IsAuthenticated)
     {
         <form id="replyForm" method="post">
-            <textarea name="ReplyContent" required></textarea>
+            <textarea name="ReplyContent" data-selector="tinymce"></textarea>
             <button type="submit">Gönder</button>
         </form>
+        <style>
+            .tox-statusbar__path,
+            .tox-statusbar__right-container,
+            .tox-promotion,
+            .tox-notifications-container {
+                display: none !important;
+            }
+        </style>
     }
     else
     {
-        <p>Yorum yapmak için <a href="@Url.Action("Login", "Auth")">giriş yapın</a>.</p>
+        <p>Yorum yapmak için giriş yapınız</p>
     }
     <div id="responseMessage"></div>
     @section Scripts {
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('#replyForm').on('submit', function (event) {
-                    event.preventDefault();
 
-                    var formData = new FormData(this);
-                    formData.append('AppUserID', '@User.FindFirst(ClaimTypes.NameIdentifier)?.Value');
-                    formData.append('TopicID', '@Model.TopicID');
-
-                    $.ajax({
-                        url: '@Url.Action("CreateReply", "Replys")',
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function (data) {
-                            $('#responseMessage').html('<p>Yanıt başarıyla gönderildi!</p>');
-                            $('#replyForm')[0].reset();
-                        },
-                        error: function (xhr, status, error) {
-                            $('#responseMessage').html('<p>Hata: ' + error + '</p>');
-                        }
-                    });
-                });
-            });
         </script>
 
 

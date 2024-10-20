@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.4.1/tinymce.min.js"
+        integrity="sha512-TDS3vtbiUCZzBBZO8LFud171Hw+ykrQgkrvjwV+i+XsI0LC46PR4affO+9VbgcR79KreoN7J0HKup9mrle4gRA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            tinymce.init({
+                selector: 'textarea',  // Hangi textarea'ların TinyMCE ile dönüştürüleceği
+                plugins: 'lists link image table', // Kullanılacak eklentiler
+                toolbar: ' styleselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image', // Araç çubuğundaki butonlar
+                height: 300 // Yükseklik ayarı
+            });
+        </script>
+    <style>
+        .tox-statusbar__path,
+        .tox-statusbar__right-container,
+        .tox-promotion {
+            display: none !important;
+        }
+
+        .tox-btbtn{
+            cursor: pointer !important;
+        }
+    </style>
+</head>
+
+<body>
+    <textarea>Your content here...</textarea>
+</body>
+
+</html>

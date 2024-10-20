@@ -3,12 +3,11 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "provider": "cdnjs",
-      "library": "ckeditor5@43.2.0",
-      "destination": "wwwroot/lib/ckeditor5/",
+      "library": "notyf@3.10.0",
+      "destination": "wwwroot/lib/notyf/",
       "files": [
-        "ckeditor.min.js",
-        "translations/tr.min.js"
+        "notyf.min.js",
+        "notyf.min.css"
       ]
     }
   ]

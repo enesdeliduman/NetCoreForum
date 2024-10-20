@@ -91,3 +91,13 @@
       }
     }
   }
+
+
+.tox{
+    .tox-statusbar__path,
+    .tox-statusbar__right-container,
+    .tox-promotion,
+    .tox-notifications-container {
+        display: none !important;
+    }
+}
