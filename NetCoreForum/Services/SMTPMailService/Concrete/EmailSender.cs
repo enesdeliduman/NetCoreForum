@@ -39,8 +39,20 @@ namespace NetCoreForum.Services.SMTPMailServer.Abstract
             };
 
             mailMessage.To.Add(recipientEmail);
-
-            await smtpClient.SendMailAsync(mailMessage);
+            try
+            {
+                await smtpClient.SendMailAsync(mailMessage);
+            }
+            catch (SmtpException smtpEx)
+            {
+                // SMTP hatası
+                Console.WriteLine($"SMTP Hatası: {smtpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Genel hata
+                Console.WriteLine($"Hata: {ex.Message}");
+            }
         }
     }
 }

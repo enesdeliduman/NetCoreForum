@@ -36,7 +36,7 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
 builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 builder.Services.AddScoped<IPendingUserRepository, PendingUserRepository>();
-builder.Services.AddScoped<IErrorMessageRepository, ErrorMessageRepository>();
+builder.Services.AddScoped<IInfoMessageRepository, InfoMessageRepository>();
 builder.Services.AddScoped<ITopicRepository, TopicRepository>();
 builder.Services.AddScoped<IReplyRepository, ReplyRepository>();
 builder.Services.AddControllersWithViews();

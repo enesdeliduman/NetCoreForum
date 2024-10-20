@@ -12,7 +12,7 @@ namespace NetCoreForum.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<EmailConfiguration> EmailConfigurations { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
-        public DbSet<ErrorMessage> ErrorMessages { get; set; }
+        public DbSet<InfoMessage> InfoMessages { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
@@ -47,7 +47,7 @@ namespace NetCoreForum.Data
                     TemplateName = "ForgotPassword",
                     ViewedTemplateName = "Şifremi Unuttum",
                     Subject = "Şifre Sıfırlama Talebi",
-                    Body = "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın: {reset_link}",
+                    Body = "Şifrenizi sıfırlamak için lütfen aşağıdaki bağlantıyı tıklayın:",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -183,35 +183,40 @@ namespace NetCoreForum.Data
                 }
             );
 
-            // ErrorMessage verisini ekleme
+            // InfoMessage verisini ekleme
 
-            modelBuilder.Entity<ErrorMessage>().HasData(new[]
+            modelBuilder.Entity<InfoMessage>().HasData(new[]
             {
-                new ErrorMessage { ErrorMessageID = 1, ErrorMessageName = "NotFound", ErrorMessageDescription = "Aradığınız kayıt bulunamadı." },
-                new ErrorMessage { ErrorMessageID = 2, ErrorMessageName = "UnauthorizedAccess", ErrorMessageDescription = "Bu işlemi gerçekleştirmek için yetkiniz yok." },
-                new ErrorMessage { ErrorMessageID = 3, ErrorMessageName = "ServerError", ErrorMessageDescription = "Bir hata oluştu. Lütfen daha sonra tekrar deneyin." },
-                new ErrorMessage { ErrorMessageID = 4, ErrorMessageName = "ValidationError", ErrorMessageDescription = "Formda hatalar var. Lütfen kontrol edin." },
-                new ErrorMessage { ErrorMessageID = 5, ErrorMessageName = "InvalidLogin", ErrorMessageDescription = "Giriş bilgileri hatalı. Lütfen tekrar deneyin." },
-                new ErrorMessage { ErrorMessageID = 6, ErrorMessageName = "AccountLocked", ErrorMessageDescription = "Hesabınız kilitlenmiştir. Lütfen destek ile iletişime geçin." },
-                new ErrorMessage { ErrorMessageID = 7, ErrorMessageName = "PasswordTooWeak", ErrorMessageDescription = "Parola en az 6 karakter olmalıdır ve en az bir büyük harf, bir küçük harf ve bir rakam içermelidir." },
-                new ErrorMessage { ErrorMessageID = 8, ErrorMessageName = "EmailAlreadyUsed", ErrorMessageDescription = "Bu e-posta adresi zaten kullanılıyor." },
-                new ErrorMessage { ErrorMessageID = 9, ErrorMessageName = "UserNotConfirmed", ErrorMessageDescription = "Lütfen e-posta adresinizi onaylayınız. Mail kutunuzu kontrol ediniz." },
-                new ErrorMessage { ErrorMessageID = 10, ErrorMessageName = "InvalidEmailOrPassword", ErrorMessageDescription = "E-posta adresi veya parola hatalı." },
-                new ErrorMessage { ErrorMessageID = 11, ErrorMessageName = "AccountPendingApproval", ErrorMessageDescription = "Hesabınız henüz onaylanmamıştır ve bekleme listesinde bulunmaktadır. Lütfen biraz daha bekleyin." },
-                new ErrorMessage { ErrorMessageID = 12, ErrorMessageName = "DuplicateEntry", ErrorMessageDescription = "Bu kayıt zaten mevcut." },
-                new ErrorMessage { ErrorMessageID = 13, ErrorMessageName = "RegistrationFailed", ErrorMessageDescription = "Kayıt işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin." },
-                new ErrorMessage { ErrorMessageID = 14, ErrorMessageName = "PasswordChangeFailed", ErrorMessageDescription = "Şifre değişikliği sırasında bir hata oluştu." },
-                new ErrorMessage { ErrorMessageID = 15, ErrorMessageName = "OldPasswordIncorrect", ErrorMessageDescription = "Eski şifreniz hatalı." },
-                new ErrorMessage { ErrorMessageID = 16, ErrorMessageName = "EmailSendFailed", ErrorMessageDescription = "E-posta gönderme işlemi sırasında bir hata oluştu." },
-                new ErrorMessage { ErrorMessageID = 17, ErrorMessageName = "EmailNotFound", ErrorMessageDescription = "Bu e-posta adresine ait bir hesap bulunamadı." },
-                new ErrorMessage { ErrorMessageID = 18, ErrorMessageName = "RequiredField", ErrorMessageDescription = "Bu alanın doldurulması zorunludur." },
-                new ErrorMessage { ErrorMessageID = 19, ErrorMessageName = "InvalidFormat", ErrorMessageDescription = "Geçersiz format. Lütfen kontrol edin." },
-                new ErrorMessage { ErrorMessageID = 20, ErrorMessageName = "OperationFailed", ErrorMessageDescription = "İşlem gerçekleştirilemedi. Lütfen daha sonra tekrar deneyin." },
-                new ErrorMessage { ErrorMessageID = 21, ErrorMessageName = "InvalidRequest", ErrorMessageDescription = "Geçersiz istek. Lütfen kontrol edin." },
-                new ErrorMessage { ErrorMessageID = 22, ErrorMessageName = "ActionNotAllowed", ErrorMessageDescription = "Bu eylem izin verilenler arasında değil." },
-                new ErrorMessage { ErrorMessageID = 23, ErrorMessageName = "FileUploadFailed", ErrorMessageDescription = "Dosya yükleme işlemi sırasında bir hata oluştu." },
-                new ErrorMessage { ErrorMessageID = 24, ErrorMessageName = "FileTypeNotAllowed", ErrorMessageDescription = "Bu dosya türü desteklenmiyor." },
-                new ErrorMessage { ErrorMessageID = 25, ErrorMessageName = "FileSizeExceeded", ErrorMessageDescription = "Dosya boyutu limitini aşıyor." }
+                new InfoMessage { InfoMessageID = 1, InfoMessageName = "NotFound", InfoMessageDescription = "Aradığınız kayıt bulunamadı." },
+                new InfoMessage { InfoMessageID = 2, InfoMessageName = "UnauthorizedAccess", InfoMessageDescription = "Bu işlemi gerçekleştirmek için yetkiniz yok." },
+                new InfoMessage { InfoMessageID = 3, InfoMessageName = "ServerError", InfoMessageDescription = "Bir hata oluştu. Lütfen daha sonra tekrar deneyin." },
+                new InfoMessage { InfoMessageID = 4, InfoMessageName = "ValidationError", InfoMessageDescription = "Formda hatalar var. Lütfen kontrol edin." },
+                new InfoMessage { InfoMessageID = 5, InfoMessageName = "InvalidLogin", InfoMessageDescription = "Giriş bilgileri hatalı. Lütfen tekrar deneyin." },
+                new InfoMessage { InfoMessageID = 6, InfoMessageName = "AccountLocked", InfoMessageDescription = "Hesabınız kilitlenmiştir. Lütfen destek ile iletişime geçin." },
+                new InfoMessage { InfoMessageID = 7, InfoMessageName = "PasswordTooWeak", InfoMessageDescription = "Parola en az 6 karakter olmalıdır ve en az bir büyük harf, bir küçük harf ve bir rakam içermelidir." },
+                new InfoMessage { InfoMessageID = 8, InfoMessageName = "EmailAlreadyUsed", InfoMessageDescription = "Bu e-posta adresi zaten kullanılıyor." },
+                new InfoMessage { InfoMessageID = 9, InfoMessageName = "UserNotConfirmed", InfoMessageDescription = "Lütfen e-posta adresinizi onaylayınız. Mail kutunuzu kontrol ediniz." },
+                new InfoMessage { InfoMessageID = 10, InfoMessageName = "InvalidEmailOrPassword", InfoMessageDescription = "E-posta adresi veya parola hatalı." },
+                new InfoMessage { InfoMessageID = 11, InfoMessageName = "AccountPendingApproval", InfoMessageDescription = "Hesabınız henüz onaylanmamıştır ve bekleme listesinde bulunmaktadır. Lütfen biraz daha bekleyin." },
+                new InfoMessage { InfoMessageID = 12, InfoMessageName = "DuplicateEntry", InfoMessageDescription = "Bu kayıt zaten mevcut." },
+                new InfoMessage { InfoMessageID = 13, InfoMessageName = "RegistrationFailed", InfoMessageDescription = "Kayıt işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin." },
+                new InfoMessage { InfoMessageID = 14, InfoMessageName = "PasswordChangeFailed", InfoMessageDescription = "Şifre değişikliği sırasında bir hata oluştu." },
+                new InfoMessage { InfoMessageID = 15, InfoMessageName = "OldPasswordIncorrect", InfoMessageDescription = "Eski şifreniz hatalı." },
+                new InfoMessage { InfoMessageID = 16, InfoMessageName = "EmailSendFailed", InfoMessageDescription = "E-posta gönderme işlemi sırasında bir hata oluştu." },
+                new InfoMessage { InfoMessageID = 17, InfoMessageName = "EmailNotFound", InfoMessageDescription = "Bu e-posta adresine ait bir hesap bulunamadı." },
+                new InfoMessage { InfoMessageID = 18, InfoMessageName = "RequiredField", InfoMessageDescription = "Bu alanın doldurulması zorunludur." },
+                new InfoMessage { InfoMessageID = 19, InfoMessageName = "InvalidFormat", InfoMessageDescription = "Geçersiz format. Lütfen kontrol edin." },
+                new InfoMessage { InfoMessageID = 20, InfoMessageName = "OperationFailed", InfoMessageDescription = "İşlem gerçekleştirilemedi. Lütfen daha sonra tekrar deneyin." },
+                new InfoMessage { InfoMessageID = 21, InfoMessageName = "InvalidRequest", InfoMessageDescription = "Geçersiz istek. Lütfen kontrol edin." },
+                new InfoMessage { InfoMessageID = 22, InfoMessageName = "ActionNotAllowed", InfoMessageDescription = "Bu eylem izin verilenler arasında değil." },
+                new InfoMessage { InfoMessageID = 23, InfoMessageName = "FileUploadFailed", InfoMessageDescription = "Dosya yükleme işlemi sırasında bir hata oluştu." },
+                new InfoMessage { InfoMessageID = 24, InfoMessageName = "FileTypeNotAllowed", InfoMessageDescription = "Bu dosya türü desteklenmiyor." },
+                new InfoMessage { InfoMessageID = 25, InfoMessageName = "FileSizeExceeded", InfoMessageDescription = "Dosya boyutu limitini aşıyor." },
+                new InfoMessage { InfoMessageID = 26, InfoMessageName = "EmailConfirmed", InfoMessageDescription = "Email adresiniz başarıyla onaylandı." },
+                new InfoMessage { InfoMessageID = 27, InfoMessageName = "UserNotFound", InfoMessageDescription = "Böyle bir kullanıcı bulamadık" },
+                new InfoMessage { InfoMessageID = 28, InfoMessageName = "RequiredEmailAddress", InfoMessageDescription = "Lütfen email adresinizi giriniz" },
+                new InfoMessage { InfoMessageID = 29, InfoMessageName = "SendEmailForNewPassword", InfoMessageDescription = "Parolanızı yenileyembilmeniz için email gönderildi. Lütfen kutunuzu kontrol edin" },
+                new InfoMessage { InfoMessageID = 30, InfoMessageName = "SuccessfullyChangePassword", InfoMessageDescription = "Parolanız başarıyla değiştirildi." },
             });
         }
     }

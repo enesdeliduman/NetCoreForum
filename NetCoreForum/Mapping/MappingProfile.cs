@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using NetCoreForum.DTOs.EmailTemplateDTOs;
-using NetCoreForum.DTOs.ErrorMessagesDTOs;
+using NetCoreForum.DTOs.InfoMessagesDTOs;
 using NetCoreForum.DTOs.PendingUserDTOs;
 using NetCoreForum.DTOs.ReplyDTOs;
 using NetCoreForum.DTOs.SiteSettingsDTOs;
@@ -22,8 +22,8 @@ namespace NetCoreForum.Mapping
             CreateMap<PendingUser, CreatePendingUserDTO>();
             CreateMap<CreatePendingUserDTO, PendingUser>();
 
-            CreateMap<ErrorMessage, ResultErrorMessageDTO>();
-            CreateMap<ErrorMessage, GetErrorMessageByErrorMessageNameDTO>();
+            CreateMap<InfoMessage, ResultInfoMessageDTO>();
+            CreateMap<InfoMessage, GetInfoMessageByInfoMessageNameDTO>();
 
             CreateMap<Topic, GetTopicDTO>();
 

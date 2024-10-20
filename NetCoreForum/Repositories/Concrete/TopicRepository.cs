@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NetCoreForum.Data;
-using NetCoreForum.DTOs.ErrorMessagesDTOs;
+using NetCoreForum.DTOs.InfoMessagesDTOs;
 using NetCoreForum.DTOs.TopicDTOs;
 using NetCoreForum.Repositories.Abstract;
 

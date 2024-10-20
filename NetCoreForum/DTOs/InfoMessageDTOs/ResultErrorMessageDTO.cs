@@ -1,9 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace NetCoreForum.Entities
+namespace NetCoreForum.DTOs.InfoMessagesDTOs
 {
-    public class InfoMessage
+    public class ResultInfoMessageDTO
     {
+        [Key]
         public int InfoMessageID { get; set; }
         public string InfoMessageName { get; set; }
         public string InfoMessageDescription { get; set; }

@@ -1,13 +1,22 @@
 ﻿<!DOCTYPE html>
 <html lang="TR">
 <vc:_default-layout-head-component-partial />
+
 <body>
     <vc:_default-layout-navbar-component-partial />
     <div class="container">
+        @if (TempData["AlertMessage"] != null)
+        {
+            <div class="alert alert-main alert-@(TempData["AlertType"])">
+                @TempData["AlertMessage"]
+            </div>
+        }
+
         @RenderBody()
     </div>
     <vc:_default-layout-footer-component-partial />
     <vc:_default-layout-scripts-component-partial />
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
