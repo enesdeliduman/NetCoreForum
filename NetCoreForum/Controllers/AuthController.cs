@@ -1,8 +1,11 @@
 ﻿using Azure.Core;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreForum.Constants.ClaimTypes;
 using NetCoreForum.Data;
 using NetCoreForum.DTOs.PendingUserDTOs;
 using NetCoreForum.Entites;
@@ -10,6 +13,7 @@ using NetCoreForum.Helpers;
 using NetCoreForum.Repositories.Abstract;
 using NetCoreForum.ViewModels.UserViewModels;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace NetCoreForum.Controllers
 {
@@ -105,59 +109,77 @@ namespace NetCoreForum.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(UserLoginViewModel userLoginViewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(userLoginViewModel.Email);
-
-                if (user != null)
-                {
-                    if (!await _userManager.IsEmailConfirmedAsync(user))
-                    {
-                        ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("UserNotConfirmed"));
-                        return View(userLoginViewModel);
-                    }
-                    else
-                    {
-                        var isTrueEmailAndPassword = await _signInManager.CheckPasswordSignInAsync(user, userLoginViewModel.Password, lockoutOnFailure: true);
-                        if (isTrueEmailAndPassword.Succeeded)
-                        {
-                            var isPending = await _context.PendingUsers.FirstOrDefaultAsync(x => x.AppUser == user);
-                            if (isPending != null)
-                            {
-                                ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("AccountPendingApproval"));
-                                return View(userLoginViewModel);
-                            }
-                            await _signInManager.SignOutAsync();
-                            var result = await _signInManager.PasswordSignInAsync(user, userLoginViewModel.Password, userLoginViewModel.RememberMe, true);
-                            if (result.Succeeded)
-                            {
-                                var userClaims = new List<Claim>
-                                {
-                                    new(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                                    new (ClaimTypes.Name, user.UserName ?? ""),
-                                    new (ClaimTypes.UserData, user.UserPhoto?? ""),
-                                };
-
-
-                                await _userManager.ResetAccessFailedCountAsync(user);
-                                await _userManager.SetLockoutEndDateAsync(user, null);
-                                return RedirectToAction("Index", "Home");
-                            }
-                            else if (result.IsLockedOut)
-                            {
-                                ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("AccountLocked"));
-                                return View(userLoginViewModel);
-
-                            }
-                        }
-                        ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("InvalidEmailOrPassword"));
-                        return View(userLoginViewModel);
-
-                    }
-                }
-                ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("EmailNotFound"));
+                return View(userLoginViewModel);
             }
-            return View(userLoginViewModel);
+
+            var user = await _userManager.FindByEmailAsync(userLoginViewModel.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("EmailNotFound"));
+                return View(userLoginViewModel);
+            }
+
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("UserNotConfirmed"));
+                return View(userLoginViewModel);
+            }
+
+            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, userLoginViewModel.Password, lockoutOnFailure: true);
+            if (!signInResult.Succeeded)
+            {
+                if (signInResult.IsLockedOut)
+                {
+                    ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("AccountLocked"));
+                }
+                else
+                {
+                    ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("InvalidEmailOrPassword"));
+                }
+                return View(userLoginViewModel);
+            }
+
+            var isPending = await _context.PendingUsers.FirstOrDefaultAsync(x => x.AppUser == user);
+            if (isPending != null)
+            {
+                ModelState.AddModelError("", await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("AccountPendingApproval"));
+                return View(userLoginViewModel);
+            }
+
+            await _signInManager.SignOutAsync();
+            await _signInManager.PasswordSignInAsync(user, userLoginViewModel.Password, userLoginViewModel.RememberMe, true);
+
+            // Kullanıcı kimlik bilgilerini ayarlama
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName ?? "Unknown"),
+                new Claim(ClaimTypes.Email, user.Email ?? "unknown@email.com"),
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim("UserSignature", user.UserSignature ?? "Default Signature"),
+                new Claim("UserBiography", user.UserBiography ?? "Default Biography"),
+                new Claim("UserPhoto", user.UserPhoto ?? "DefaultPhoto")
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = userLoginViewModel.RememberMe,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties
+            );
+
+            await _userManager.ResetAccessFailedCountAsync(user);
+            await _userManager.SetLockoutEndDateAsync(user, null);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> ConfirmEmail(string Id, string Token)
@@ -204,7 +226,7 @@ namespace NetCoreForum.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var url = Url.Action("ResetPassword", "Auth", new { user.Id, token });
             var ForgotPasswordEmailTemplate = await _emailTemplateRepository.GetEmailTemplateByTemplateNameAsync("ForgotPassword");
-           await _emailSender.SendEmailAsync(Email, ForgotPasswordEmailTemplate.Subject, ForgotPasswordEmailTemplate.Body + $"<a href='http://localhost:5146{url}'>Linke tıklayınız</a>");
+            await _emailSender.SendEmailAsync(Email, ForgotPasswordEmailTemplate.Subject, ForgotPasswordEmailTemplate.Body + $"<a href='http://localhost:5146{url}'>Linke tıklayınız</a>");
 
             TempDataHelper.SetTempDataMessage(this, await _infoMessageRepository.GetInfoMessageByInfoMessageNameToStringAsync("SendEmailForNewPassword"), "success");
             return View();

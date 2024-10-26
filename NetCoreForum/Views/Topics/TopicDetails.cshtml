@@ -79,12 +79,11 @@
                         processData: false,
                         success: function (data) {
                             notyf.success('Cevabınız başarıyla gönderildi');
-                            $('#responseMessage').html('<p>Yanıt başarıyla gönderildi!</p>');
                             $('#replyForm')[0].reset();
+                            console.log(data)
                         },
                         error: function (xhr, status, error) {
                             notyf.error('Cevap gönderilirken bir sorun oluştu');
-                            $('#responseMessage').html('<p>Hata: ' + error + '</p>');
                         }
                     });
                 });
